@@ -1,0 +1,5 @@
+﻿    Session["SelectedClientID"] initialized in the search.aspx
+    Session["SelectedCounterType"] initialized in the search.aspx
+    HttpContext.Current.Session["ClientTypeSec"] is initialized on counterclients upon clientbutton selection
+
+    https://stackoverflow.com/questions/9743294/how-to-show-a-message-box-from-edit-add-new-button-click-of-a-devexpress-gridvie
