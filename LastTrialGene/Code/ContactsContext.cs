@@ -14,8 +14,6 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Web;
-
-
 using static LastTrialGene.Models.Sample;
 
 namespace LastTrialGene.ContactsContext
@@ -254,7 +252,9 @@ namespace LastTrialGene.ContactsContext
         public string PostalAddress3 { get; set; }
         public string PhysicalAddress3 { get; set; }
         public string Username { get; set; }
-       public CreationDate CreationDate { get; set; }
+        //public CreationDate CreationDate { get; set; }
+
+        public DateTime CreationDate { get; set; }
         public int? StockBrokerID { get; set; }
         public int? CustodianID { get; set; }
         public int? TransferSecretaryID { get; set; }
@@ -484,7 +484,7 @@ namespace LastTrialGene.ContactsContext
             return c;
         }
 
-        public static List<IdentificationType> GetIdentification()
+        /*public static List<IdentificationType> GetIdentification()
         {
             List<IdentificationType> c = getParams().data.IdentificationType;
 
@@ -492,17 +492,15 @@ namespace LastTrialGene.ContactsContext
             {
                 int v = int.Parse(HttpContext.Current.Session["Identificationtype"].ToString());
 
-                /*foreach (var elem in c)
-                {
-                    var id = elem.Type;
-                    var name = elem.Name;
 
-                    if (elem.IdentificationType.Equals(v))
-                    {
-                        c[0] = new Identificationtype(id, name);
-                    }
-                }*/
             }
+            return c;
+        }*/
+
+        public static IdentificationType[] GetIdentification()
+        {
+
+            IdentificationType[] c = Array.FindAll(getParams().data.IdentificationType, ct => ct.Corporate == 0).ToArray();
             return c;
         }
 

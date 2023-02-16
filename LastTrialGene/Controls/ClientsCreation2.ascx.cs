@@ -50,8 +50,43 @@ namespace LastTrialGene.Controls
                 ((ASPxGridView)sender).JSProperties["cpInsertNote"] = HttpContext.Current.Session["InsertedMessage"];//"The row is inserted successfully";
             }
         }
-        //1
-        protected void GridView_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
+
+        protected void grid_CellEditorInitialize(object sender, ASPxGridViewEditorEventArgs e)
+        {
+
+            if (e.Column.FieldName == "PhysicalCity")
+            {
+                var combo = (ASPxComboBox)e.Editor;
+                combo.Callback += new CallbackEventHandlerBase(combo_Callback);
+
+                var grid = e.Column.Grid;
+                if (!combo.IsCallback)
+                {
+                    var countryID = -1;
+                    if (!grid.IsNewRowEditing)
+                        countryID = (int)grid.GetRowValues(e.VisibleIndex, "PhysicalCountry");
+                    FillCitiesComboBox(combo, countryID);
+                }
+            }
+
+            if (e.Column.FieldName == "PostalCity")
+            {
+                var combo = (ASPxComboBox)e.Editor;
+                combo.Callback += new CallbackEventHandlerBase(combo_Callback);
+
+                var grid = e.Column.Grid;
+                if (!combo.IsCallback)
+                {
+                    var countryID = -1;
+                    if (!grid.IsNewRowEditing)
+                        countryID = (int)grid.GetRowValues(e.VisibleIndex, "PostalCountry");
+                    //FillCitiesComboBoxPost(combo, countryID);
+                    FillCitiesComboBoxPost(combo, countryID);
+                }
+            }
+        }
+            //1
+            protected void GridView_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
             e.NewValues["Kind"] = 1;
             /** e.NewValues["Priority"] = 2;
@@ -123,7 +158,92 @@ namespace LastTrialGene.Controls
             errors[column] = errorText;
         }
 
-        protected void grid_EditFormLayoutCreated(object sender, DevExpress.Web.ASPxGridViewEditFormLayoutEventArgs e)
+
+        private void combo_Callback(object sender, CallbackEventArgsBase e)
+        {
+            var countryID = -1;
+            Int32.TryParse(e.Parameter, out countryID);
+            FillCitiesComboBox(sender as ASPxComboBox, countryID);
+            // FillCitiesComboBoxEmp(sender as ASPxComboBox, countryID);
+            //FillCitiesComboBoxPost(sender as ASPxComboBox, countryID);
+        }
+
+        private void combo_CallbackPost(object sender, CallbackEventArgsBase e)
+        {
+            var countryID = -1;
+            Int32.TryParse(e.Parameter, out countryID);
+            FillCitiesComboBoxPost(sender as ASPxComboBox, countryID);
+        }
+
+        protected void FillCitiesComboBox(ASPxComboBox combo, int countryID)
+        {
+            combo.DataSourceID = "CitySource";
+            CitySource.SelectParameters["PhysicalCountry"].DefaultValue = countryID.ToString();
+            combo.DataBindItems();
+            combo.Items.Insert(0, new ListEditItem("", null)); // Null Item
+        }
+        protected void FillCitiesComboBoxPost(ASPxComboBox combo, int countryID)
+        {
+            combo.DataSourceID = "CitySourcePost";
+            CitySourcePost.SelectParameters["PostalCountry"].DefaultValue = countryID.ToString();
+            combo.DataBindItems();
+
+            combo.Items.Insert(0, new ListEditItem("", null)); // Null Item
+        }
+
+        protected void Grid_Init(object sender, EventArgs e)
+        {
+            GridViewDataComboBoxColumn RelationShipManager = new GridViewDataComboBoxColumn();
+            RelationShipManager.FieldName = "RelationShipManager";
+            RelationShipManager.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            RelationShipManager.VisibleIndex = GridView.VisibleColumns.Count;
+            RelationShipManager.Visible = false;
+            RelationShipManager.PropertiesComboBox.Items.Add("Masaiti");
+            RelationShipManager.PropertiesComboBox.Items.Add("Tatenda");
+            GridView.Columns.Add(RelationShipManager);
+
+            GridViewDataComboBoxColumn EntityType = new GridViewDataComboBoxColumn();
+            EntityType.FieldName = "EntityType";
+            EntityType.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            EntityType.VisibleIndex = GridView.VisibleColumns.Count;
+            EntityType.Visible = false;
+            EntityType.PropertiesComboBox.Items.Add("Private Ltd");
+            EntityType.PropertiesComboBox.Items.Add("Public Ltd");
+            EntityType.PropertiesComboBox.Items.Add("Trust");
+            GridView.Columns.Add(EntityType);
+
+            GridViewDataCheckColumn AutoGene = new GridViewDataCheckColumn();
+            AutoGene.FieldName = "AutoGene";
+            AutoGene.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+            AutoGene.VisibleIndex = GridView.VisibleColumns.Count;
+            AutoGene.PropertiesCheckEdit.EnableClientSideAPI = true;
+            AutoGene.PropertiesCheckEdit.ValueChecked = 1;
+            AutoGene.PropertiesCheckEdit.ValueUnchecked = 0;
+            AutoGene.Visible = false;
+            AutoGene.PropertiesCheckEdit.ClientSideEvents.CheckedChanged = "function (s,e) {if( s.GetCheckState()=='Checked'){gridView.GetMainElement().getElementsByClassName('flContainer')[0].style.visibility ='hidden';}if( s.GetCheckState()=='Unchecked'){gridView.GetMainElement().getElementsByClassName('flContainer')[0].style.visibility ='visible';} }";
+
+            GridView.Columns.Add(AutoGene);
+
+            GridViewDataCheckColumn VAT = new GridViewDataCheckColumn();
+            VAT.FieldName = "VAT";
+            VAT.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+            VAT.VisibleIndex = GridView.VisibleColumns.Count;
+            VAT.PropertiesCheckEdit.EnableClientSideAPI = true;
+            VAT.PropertiesCheckEdit.ValueChecked = 1;
+            VAT.PropertiesCheckEdit.ValueUnchecked = 0;
+            VAT.Visible = false;
+            GridView.Columns.Add(VAT);
+
+            GridViewDataTextColumn contactEmail2 = new GridViewDataTextColumn();
+            contactEmail2.FieldName = "contactEmail2";
+            contactEmail2.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            contactEmail2.VisibleIndex = GridView.VisibleColumns.Count;
+            contactEmail2.Visible = false;
+            GridView.Columns.Add(contactEmail2);
+
+        }
+
+            protected void grid_EditFormLayoutCreated(object sender, DevExpress.Web.ASPxGridViewEditFormLayoutEventArgs e)
         {
             ASPxGridView gridView = sender as ASPxGridView;
             LayoutGroup layoutGroupDismissal = (LayoutGroup)e.FindLayoutItemOrGroup("DismissalInformation");

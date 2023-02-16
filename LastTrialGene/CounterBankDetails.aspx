@@ -58,7 +58,19 @@
         CssClass="grid-view" Width="100%"
         DataSourceID="GridViewDataSource"
         OnCustomCallback="GridView_CustomCallback"
-        OnInitNewRow="GridView_InitNewRow"  OnRowValidating="grid_RowValidating" >
+        OnInitNewRow="GridView_InitNewRow" OnRowInserted="ASPxGridView1_RowInserted" onrowupdated="GridView_RowUpdated" OnCellEditorInitialize="grid_CellEditorInitialize"  OnRowValidating="grid_RowValidating" >
+                   <clientsideevents
+        EndCallback="function(s, e) {
+                        if (s.cpUpdatedMessage) {
+                            alert(s.cpUpdatedMessage);
+                            delete s.cpUpdatedMessage;
+                        }
+                      if (s.cpInsertNote) {
+                            alert(s.cpInsertNote);
+                            delete s.cpInsertNote;
+                        }
+                    }"
+    />
         <Columns>
             <dx:GridViewCommandColumn ShowSelectCheckbox="True" SelectAllCheckboxMode="AllPages" VisibleIndex="0" Width="52"></dx:GridViewCommandColumn>
 
@@ -165,7 +177,7 @@
 
     <asp:ObjectDataSource ID="GridViewDataSource" runat="server" DataObjectTypeName="LastTrialGene.Models.BankDetailsData2"
         TypeName=" LastTrialGene.Code.BanksDataProvider"
-        SelectMethod="GetCounterBank" InsertMethod="AddNewCounterBank" UpdateMethod="UpdateCounterBank"></asp:ObjectDataSource>
+        SelectMethod="GetCounterBank" InsertMethod="AddNewCounterBank" UpdateMethod="UpdateCounterBank" OldValuesParameterFormatString="original_{0}"></asp:ObjectDataSource>
 
    <asp:ObjectDataSource ID="BankAccountType" runat="server" DataObjectTypeName=" LastTrialGene.Model.BankAccountType"
         TypeName=" LastTrialGene.Code.BanksDataProvider"

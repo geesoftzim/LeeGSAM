@@ -150,6 +150,42 @@ namespace LastTrialGene.Controls
         protected global::System.Web.UI.WebControls.ObjectDataSource CitySource;
 
         /// <summary>
+        /// AllCitySourcePost control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource AllCitySourcePost;
+
+        /// <summary>
+        /// CitySourcePost control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource CitySourcePost;
+
+        /// <summary>
+        /// AllCitySourceEmp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource AllCitySourceEmp;
+
+        /// <summary>
+        /// CitySourceEmp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource CitySourceEmp;
+
+        /// <summary>
         /// InceptionDateSource control.
         /// </summary>
         /// <remarks>

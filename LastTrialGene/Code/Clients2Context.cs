@@ -117,7 +117,8 @@ namespace LastTrialGene.ClientsContext2
                     HttpContext.Current.Session["Salutationtype"] = pm1.data.SalutationType;
                     HttpContext.Current.Session["Sex"] = pm1.data.SexType;
                     HttpContext.Current.Session["Nationality"] = pm1.data.Nationality;
-                    HttpContext.Current.Session["date"] = pm1.data.DateOfBirth.date;
+                    // HttpContext.Current.Session["date"] = pm1.data.DateOfBirth.date;
+                    HttpContext.Current.Session["date"] = pm1.data.DateOfBirth.ToString();
                     //HttpContext.Current.Session["InceptionDate"] = pm1.data.InceptionDate.date;
                 }
             //    Response.Redirect("aaac.aspx");
@@ -216,9 +217,9 @@ namespace LastTrialGene.ClientsContext2
 
 
 
-        public static Country[] GetCountry()
+        public static ParamsClientForm.Country[] GetCountry()
         {
-            Country[] c = getParams().data.Country;
+            ParamsClientForm.Country[] c = getParams().data.Country;
 
             if (HttpContext.Current.Session["Country"] != null)
             {
@@ -231,14 +232,14 @@ namespace LastTrialGene.ClientsContext2
 
                     if (elem.ID == v)
                     {
-                        c[0] = new Country(id, name);
+                        c[0] = new ParamsClientForm.Country(id, name);
                     }
                 }
             }
             return c;
         }
 
-        public static City[] GetCity()
+        /**public static City[] GetCity()
         {
             City[] c = getParams().data.City;
 
@@ -257,6 +258,68 @@ namespace LastTrialGene.ClientsContext2
                      }
                 }
             }
+            return c;
+        }*/
+
+        public static ParamsClientForm.City[] GetCity()
+        {
+            ParamsClientForm.City[] c = getParams().data.City;
+
+            if (HttpContext.Current.Session["City"] != null)
+            {
+                int v = int.Parse(HttpContext.Current.Session["City"].ToString());
+
+                foreach (var elem in c)
+                {
+                    var id = elem.ID;
+                    var name = elem.Name;
+
+                    if (elem.ID == v)
+                    {
+                        c[0] = new ParamsClientForm.City(id, name);
+                    }
+                }
+            }
+            return c;
+        }
+
+        public static IEnumerable GetCity(int PhysicalCountry)
+        {
+
+            ParamsClientForm.City[] c = Array.FindAll(getParams().data.City, ct => ct.CountryID == PhysicalCountry).ToArray();
+
+            return c;
+        }
+
+
+
+        public static ParamsClientForm.City[] GetCityPost()
+        {
+            ParamsClientForm.City[] c = getParams().data.City;
+
+            if (HttpContext.Current.Session["City"] != null)
+            {
+                int v = int.Parse(HttpContext.Current.Session["City"].ToString());
+
+                foreach (var elem in c)
+                {
+                    var id = elem.ID;
+                    var name = elem.Name;
+
+                    if (elem.ID == v)
+                    {
+                        c[0] = new ParamsClientForm.City(id, name);
+                    }
+                }
+            }
+            return c;
+        }
+
+        public static IEnumerable GetCityPost(int PostalCountry)
+        {
+
+            ParamsClientForm.City[] c = Array.FindAll(getParams().data.City, ct => ct.CountryID == PostalCountry).ToArray();
+
             return c;
         }
         public static RiskRating[] GetRiskRating()
@@ -482,9 +545,9 @@ namespace LastTrialGene.ClientsContext2
             return c;
         }
 
-        public static Nationality[] GetNationality()
+        public static nationality[] GetNationality()
         {
-            Nationality[] c = getParams().data.Nationality;
+            nationality[] c = getParams().data.Nationality;
 
             if (HttpContext.Current.Session["Nationality"] != null)
             {
@@ -497,7 +560,7 @@ namespace LastTrialGene.ClientsContext2
 
                     if (id == v)
                     {
-                        c[0] = new Nationality(id, Name);
+                        c[0] = new nationality(id, Name);
                     }
                 }
             }
@@ -779,8 +842,8 @@ namespace LastTrialGene.ClientsContext2
                 newClient.DateOfBirth = DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.IndustryType = 0;
                 newClient.RegistrationOffice = emp.RegistrationOffice;
-                newClient.VATRegistrationNo = "";
-                newClient.BPNumber = "0";
+                newClient.VATRegistrationNo = emp.VATRegistrationNo;
+                newClient.BPNumber = emp.BPNumber;
                 newClient.TaxStatus = true;
                 newClient.WithholdingTaxStatus = emp.WithholdingTaxStatus==1?true:false;
                 newClient.ResidentShareholdersTaxStatus =false;
@@ -791,7 +854,7 @@ namespace LastTrialGene.ClientsContext2
                 newClient.CounterpartyType = 1;///(@cboCounterpartyType.Value == null ? 0 : (int)cboCounterpartyType.Value);
                 newClient.CustodialGroup = emp.CustodialGroup;//int.Parse(cust.Value.ToString());// (cboCustodialGroup.Value == null ? 0 : (int)cboCustodialGroup.Value);
                // newClient.InceptionDate = emp.InceptionDate.ToString();//DateTime.Now.ToString("yyyy-MM-dd");
-                newClient.SpecialInstructions = //physicalAddress.Text;
+                newClient.SpecialInstructions = emp.SpecialInstructions;//physicalAddress.Text;
                 newClient.BranchID = emp.BranchID.ToString();//int.Parse(branch.ToString());//int.Parse(cboBranch.Value.ToString()); //(@cboBranch.Value == null ? 0 : (int)cboBranch.Value);
                 newClient.PhysicalAddress = emp.PhysicalAddress;//physicalAddress.Text;
                 newClient.PhysicalAddress2 = emp.PhysicalAddress2;//physicalAddress2.Text; ;

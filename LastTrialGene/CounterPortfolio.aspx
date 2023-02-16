@@ -58,7 +58,19 @@
         CssClass="grid-view" Width="100%"
         DataSourceID="GridViewDataSource"
         OnCustomCallback="GridView_CustomCallback"
-        OnInitNewRow="GridView_InitNewRow">
+        OnInitNewRow="GridView_InitNewRow"  OnRowInserted="ASPxGridView1_RowInserted" onrowupdated="GridView_RowUpdated">
+                   <clientsideevents
+        EndCallback="function(s, e) {
+                        if (s.cpUpdatedMessage) {
+                            alert(s.cpUpdatedMessage);
+                            delete s.cpUpdatedMessage;
+                        }
+                      if (s.cpInsertNote) {
+                            alert(s.cpInsertNote);
+                            delete s.cpInsertNote;
+                        }
+                    }"
+    />
         <Columns>
             <dx:GridViewCommandColumn ShowSelectCheckbox="True" SelectAllCheckboxMode="AllPages" VisibleIndex="0" Width="52"></dx:GridViewCommandColumn>
          

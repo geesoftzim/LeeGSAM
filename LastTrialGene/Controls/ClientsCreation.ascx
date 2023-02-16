@@ -1,20 +1,81 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ClientsCreation.ascx.cs" Inherits="LastTrialGene.Controls.ClientsCreation" %>
 
 
+<style>
+  /** .HasUSGreenCard {
+    display:none;
+    }
+    */
+</style>
 
+    <script type="text/javascript"> 
 
-    <script type="text/javascript">    
+       function title_SelectedIndexChanged(s, e) {
+            //gridView.GetEditor("PhysicalCity").PerformCallback(s.GetValue());
+           document.getElementsByClassName('HasUSGreenCard')[0].style.visibility = "hidden";
+           document.getElementsByClassName('citizen2')[0].style.visibility = "hidden";
+        }
+
         function CountriesCombo_SelectedIndexChanged(s, e) {
+            console.log('physical city fired');
+          
             gridView.GetEditor("PhysicalCity").PerformCallback(s.GetValue());
         }
 
         function PostCountriesCombo_SelectedIndexChanged(s, e) {
+            console.log('postal city fired');
             gridView.GetEditor("PostalCity").PerformCallback(s.GetValue());
         }
 
         function EmpCountriesCombo_SelectedIndexChanged(s, e) {
+            console.log('employer city fired');
             gridView.GetEditor("EmployerPhysicalCity").PerformCallback(s.GetValue());
         }
+
+        /**==========================CallBacks============================== */
+
+        /**==========================CallBacks============================== */
+
+
+
+
+
+       /* function OnGIBleedingValueChanged(s, e) {
+            if (s.GetValue() == true) {
+                grid.GetMainElement().getElementsByClassName(flContainer)[0].style.visibility = "none";
+
+            }
+        }*/
+
+        /**
+        
+        function OnCheckedChanged(s, e) {
+            var value = grid.GetEditor("ee").PerformCallback()
+
+        }*/
+
+        //var allowEdit = false;
+        //function OnEditing(s, e) {
+        //    e.cancel = allowEdit;
+        //}
+
+        //function OnAllowEditChanged(s, e) {
+        //    allowEdit = s.GetValue();
+        //}
+
+
+       /* function OnGIBleedingValueChanged(s, e) {
+            var group = fl.GetItemByName('Versandkosten');
+            group.SetVisible(!(s.GetText() == 'A')); 
+            */
+          //  grid.GetMainElement().getElementsByClassName("flContainer")[0].style.visibility = "none";
+         /*   if (s.GetValue() == true) { 
+                // grid.GetMainElement().getElementsByClassName("flContainer")[0].style.visibility = "";
+                //  else
+                grid.GetMainElement().getElementsByClassName("flContainer")[0].style.visibility = "none";
+        }*/
+      //  }
+
     </script>
 
 
@@ -30,41 +91,83 @@
         DataSourceID="ObjectDataSourceCompanyEmployees"
         OnCustomCallback="GridView_CustomCallback"
         OnInitNewRow="GridView_InitNewRow"
-        PreviewFieldName="Name" OnInit="Grid_Init" OnCustomUnboundColumnData="Grid_CustomUnboundColumnData" OnCellEditorInitialize="grid_CellEditorInitialize" OnRowInserted="ASPxGridView1_RowInserted" onrowupdated="GridView_RowUpdated" OnRowValidating="grid_RowValidating" OnEditFormLayoutCreated="grid_EditFormLayoutCreated">
+        PreviewFieldName="Name"  OnInit="Grid_Init" OnCustomUnboundColumnData="Grid_CustomUnboundColumnData" OnCellEditorInitialize="grid_CellEditorInitialize" OnRowInserted="ASPxGridView1_RowInserted" onrowupdated="GridView_RowUpdated" OnRowValidating="grid_RowValidating" OnEditFormLayoutCreated="grid_EditFormLayoutCreated">
            <clientsideevents
         EndCallback="function(s, e) {
                         if (s.cpUpdatedMessage) {
                             alert(s.cpUpdatedMessage);
                             delete s.cpUpdatedMessage;
                         }
+                      if (s.cpInsertNote) {
+                            alert(s.cpInsertNote);
+                            delete s.cpInsertNote;
+                        }
                     }"
     />
-                                  <clientsideevents
+        <%--                          <clientsideevents
         EndCallback="function(s, e) {
                         if (s.cpInsertNote) {
                             alert(s.cpInsertNote);
                             delete s.cpInsertNote;
                         }
                     }"
-    />
+    />--%>
+
+
 
         <Columns>
             <dx:GridViewCommandColumn ShowSelectCheckbox="True" SelectAllCheckboxMode="AllPages" VisibleIndex="0" Width="52"></dx:GridViewCommandColumn>
 
              <dx:GridViewDataTextColumn visible="false" ReadOnly="true" FieldName="ID" />
 
-              <dx:GridViewDataTextColumn  ReadOnly="true" FieldName="ClientNo" caption="ClientNo" Width="20%" />
+              <dx:GridViewDataTextColumn   ReadOnly="false" FieldName="ClientNo" caption="ClientNo" Width="20%" />
              
             <dx:GridViewDataTextColumn FieldName="Name" caption="First Name" Width="20%" />
              <dx:GridViewDataTextColumn FieldName="Name2" caption="Middle Name" Width="20%"/>
-            <dx:GridViewDataTextColumn FieldName="Name3" caption="Surname" Width="20%"/>
+            <dx:GridViewDataTextColumn FieldName="Name3" caption="Surname" Width="20%"/> 
 
-             <dx:GridViewDataTextColumn FieldName="PhoneNo" visible="false"/>
-            <dx:GridViewDataTextColumn FieldName="PhoneNo2" visible="false" />
-            <dx:GridViewDataTextColumn FieldName="PhoneNo3" visible="false"/>
+
+
+            <dx:GridViewDataTextColumn FieldName="GovRegNo" visible="false" Width="20%"/>
+
+             <dx:GridViewDataTextColumn FieldName="PhoneNo">
+                 <PropertiesTextEdit>
+                         <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a valid phone number" ValidationExpression="^[0-9]*$" />
+                 <RequiredField ErrorText="Enter phonenumber" IsRequired="True" />
+                 </ValidationSettings>
+                 </PropertiesTextEdit>
+             </dx:GridViewDataTextColumn>
+
+            <dx:GridViewDataTextColumn FieldName="PhoneNo2" visible="false">
+                                 <PropertiesTextEdit>
+                         <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a valid phone number" ValidationExpression="^[0-9]*$" />
+                 <RequiredField ErrorText="Enter phonenumber" IsRequired="True" />
+                 </ValidationSettings>
+                 </PropertiesTextEdit>
+            </dx:GridViewDataTextColumn>
+
+            <dx:GridViewDataTextColumn FieldName="PhoneNo3" visible="false">
+                                 <PropertiesTextEdit>
+                         <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a valid phone number" ValidationExpression="^[0-9]*$" />
+                 <RequiredField ErrorText="Enter phonenumber" IsRequired="True" />
+                 </ValidationSettings>
+                 </PropertiesTextEdit>
+
+            </dx:GridViewDataTextColumn>
 
               <dx:GridViewDataTextColumn FieldName="EmailAddress" visible="false" />
+            <dx:GridViewDataTextColumn FieldName="EmailAddress3" visible="false" />
+             <dx:GridViewDataTextColumn FieldName="EmailAddress4" visible="false" />
             <dx:GridViewDataTextColumn FieldName="FaxNo" visible="false"/>
+
+           <%-- <dx:GridViewDataTextColumn FieldName="contactEmail2" visible="false"/>
+            <dx:GridViewDataTextColumn FieldName="contactEmail3" visible="false"/>
+            <dx:GridViewDataTextColumn FieldName="contactEmail4" visible="false"/>--%>
+
+            
 
             <dx:GridViewDataTextColumn FieldName="IdentificationNo" Width="20%"/>
 
@@ -90,7 +193,8 @@
                 <dx:GridViewDataTextColumn FieldName="VFXNumber" visible="false"/>
              <dx:GridViewDataTextColumn FieldName="ZSENumber" visible="false"/>
            
-
+            
+                  <%-- <dx:GridViewDataTextColumn FieldName="TMONAcc" visible="false"/>--%>
               <dx:GridViewDataTextColumn FieldName="EmailAddress3" visible="false"/>
              <dx:GridViewDataTextColumn FieldName="EmailAddress4" visible="false"/>
 
@@ -105,38 +209,86 @@
            
          <dx:GridViewDataCheckColumn FieldName="LedgerFee" visible="false"/>
          <dx:GridViewDataCheckColumn FieldName="IsFundAdmin" visible="false"/>
-         <dx:GridViewDataCheckColumn FieldName="IsUSResident" visible="false"/>
+
+                  <dx:GridViewDataCheckColumn FieldName="EmailStatement" visible="false"/>
+         <dx:GridViewDataCheckColumn FieldName="HoldStatement" visible="false"/>
+
+
+        <%-- <dx:GridViewDataCheckColumn FieldName="IsUSResident" visible="false"/>--%>
          <dx:GridViewDataCheckColumn FieldName="ManagedClient" visible="false"/>
-                    <dx:GridViewDataCheckColumn FieldName="HasUSGreenCard" visible="false"/>
+
+                    <dx:GridViewDataCheckColumn FieldName="HasUSGreenCard" visible="false">
+                        <PropertiesCheckEdit>
+                        </PropertiesCheckEdit>
+                        </dx:GridViewDataCheckColumn>
                        <dx:GridViewDataCheckColumn FieldName="SendSMS" visible="false"/>
                     <dx:GridViewDataCheckColumn FieldName="WithholdingTaxStatus" visible="false"/>
                 
                 
         <dx:GridViewDataCheckColumn FieldName="Active" visible="false"/>
+             <dx:GridViewDataCheckColumn FieldName="VAT" visible="false"/>
                 
                <dx:GridViewDataCheckColumn FieldName="UpfrontFee" visible="false"/>
 
-           <%--<dx:GridViewDataCheckColumn>  
+
+           <%-- <dx:GridViewDataComboBoxColumn FieldName="DualCit" VisibleIndex="27">  
+    <PropertiesComboBox FieldName="DualCit" EnableFocusedStyle="False"  
+        HelpText="GI bleeding (visible blood) (Y/N)" NullDisplayText=" "  
+        NullText="Select...">  
+        <HelpTextSettings DisplayMode="Popup" Position="Top">  
+        </HelpTextSettings>  
+        <ClientSideEvents ValueChanged="OnGIBleedingValueChanged" />  
+    </PropertiesComboBox>  
+</dx:GridViewDataComboBoxColumn>  --%>
+
+
+             
+                <%--  <dx:GridViewDataCheckColumn Caption="DualCit" FieldName="DualCit" VisibleIndex="15" Visible="false" EditFormSettings-Visible="True">  
+                                    <PropertiesCheckEdit>  
+                                   
+                                        <ClientSideEvents ValueChanged="OnGIBleedingValueChanged"/>
+                                    </PropertiesCheckEdit>  
+                                </dx:GridViewDataCheckColumn>  --%>
+
+                <%-- <ClientSideEvents CheckedChanged="OnCheckChanged(s,e)"/> --%>
+
+                 <%-- <dx:GridViewDataCheckColumn FieldName="DualCit" visible="false"/>
+
+      <dx:GridViewDataCheckColumn FieldName="DualCit">  
                     <DataItemTemplate>  
                         <dx:ASPxCheckBox  ID="ASPxCheckBox1" runat="server" Checked='true'  OnInit="ASPxCheckBox1_Init">  
-                        </dx:ASPxCheckBox>  
+                        </dx:ASPxCheckBox>       
                     </DataItemTemplate>                    
-                </dx:GridViewDataCheckColumn> --%>
+                </dx:GridViewDataCheckColumn>--%>
+
+                <%--  <dx:GridViewDataCheckColumn VisibleIndex="4" FieldName="DualCit" Visible="false">
+                <PropertiesCheckEdit>
+                <ClientSideEvents CheckedChanged="OnAllowEditChanged" />
+                </PropertiesCheckEdit>
+            </dx:GridViewDataCheckColumn>--%>
        
           
           
 
             
 
-      <%-- <dx:GridViewDataDateColumn FieldName="InceptionDate" >  
-              <PropertiesDateEdit DisplayFormatString="dd-MM-yyyy" EditFormatString="dd-MM-yyyy"></PropertiesDateEdit>  
+     <dx:GridViewDataDateColumn FieldName="InceptionDate" >  
+              <PropertiesDateEdit DisplayFormatString="dd-MM-yyyy" EditFormatString="dd-MM-yyyy">
+                                      <ValidationSettings>  
+                     <RequiredField IsRequired="true" ErrorText="Select Inception Date" />  
+                    </ValidationSettings>
+              </PropertiesDateEdit>  
                </dx:GridViewDataDateColumn>
 
             <dx:GridViewDataDateColumn FieldName="DateOfBirth" >  
-              <PropertiesDateEdit DisplayFormatString="dd-MM-yyyy" EditFormatString="dd-MM-yyyy"></PropertiesDateEdit>  
+              <PropertiesDateEdit DisplayFormatString="dd-MM-yyyy" EditFormatString="dd-MM-yyyy">
+                                      <ValidationSettings>  
+                     <RequiredField IsRequired="true" ErrorText="Select DateOfBirth" />  
+                    </ValidationSettings>
+              </PropertiesDateEdit>  
                </dx:GridViewDataDateColumn>
 
-            <dx:GridViewDataDateColumn FieldName="ExpiryDate" >  
+             <%-- <dx:GridViewDataDateColumn FieldName="ExpiryDate" >  
               <PropertiesDateEdit DisplayFormatString="dd-MM-yyyy" EditFormatString="dd-MM-yyyy"></PropertiesDateEdit>  
                </dx:GridViewDataDateColumn>
 
@@ -147,6 +299,46 @@
             <%--<dx:GridViewDataDateColumn FieldName="empdate2" >  
               <PropertiesDateEdit DisplayFormatString="dd-MM-yyyy" EditFormatString="dd-MM-yyyy"></PropertiesDateEdit>  
                </dx:GridViewDataDateColumn>--%>
+
+            
+
+              <dx:GridViewDataComboBoxColumn  VisibleIndex="4" FieldName="SalutationType" Visible="false">
+                <PropertiesComboBox    ValueField="SalutationType" TextField="Name"   DataSourceID="titleSource" EnableSynchronization="False" IncrementalFilteringMode="StartsWith">
+                    <ValidationSettings>  
+                     <RequiredField IsRequired="true" ErrorText="Select Title" />  
+                    </ValidationSettings>
+                             <ClientSideEvents SelectedIndexChanged="title_SelectedIndexChanged" />
+                </PropertiesComboBox>
+                 <EditFormSettings ColumnSpan="2" Visible="True" />                 
+            </dx:GridViewDataComboBoxColumn>
+              
+             <dx:GridViewDataComboBoxColumn  VisibleIndex="4" FieldName="Nationality" Visible="false">
+                <PropertiesComboBox    ValueField="Nationality" TextField="Name"   DataSourceID="NationalitySource" EnableSynchronization="False" IncrementalFilteringMode="StartsWith">
+                    <ValidationSettings>  
+                     <RequiredField IsRequired="true" ErrorText="Select Country" />  
+                    </ValidationSettings>
+                </PropertiesComboBox>
+                 <EditFormSettings ColumnSpan="2" Visible="True" />                 
+            </dx:GridViewDataComboBoxColumn>
+
+
+             <dx:GridViewDataComboBoxColumn  VisibleIndex="4" FieldName="Citizenship" Visible="false">
+                <PropertiesComboBox    ValueField="Citizenship" TextField="Name"   DataSourceID="NationalitySource" EnableSynchronization="False" IncrementalFilteringMode="StartsWith">
+                    <ValidationSettings>  
+                     <RequiredField IsRequired="true" ErrorText="Select Country" />  
+                    </ValidationSettings>
+                </PropertiesComboBox>
+                 <EditFormSettings ColumnSpan="2" Visible="True" />                 
+            </dx:GridViewDataComboBoxColumn>
+
+                 <dx:GridViewDataComboBoxColumn  VisibleIndex="4" FieldName="Citizenship2" Visible="false">
+                <PropertiesComboBox    ValueField="Citizenship2" TextField="Name"   DataSourceID="NationalitySource" EnableSynchronization="False" IncrementalFilteringMode="StartsWith">
+                    <%--<ValidationSettings>  
+                     <RequiredField IsRequired="true" ErrorText="Select Country" />  
+                    </ValidationSettings>--%>
+                </PropertiesComboBox>
+                 <EditFormSettings ColumnSpan="2" Visible="True" />                 
+            </dx:GridViewDataComboBoxColumn>
            
            
 
@@ -174,7 +366,7 @@
 
 
              <dx:GridViewDataComboBoxColumn  VisibleIndex="4" FieldName="PostalCity" Visible="false">
-                <PropertiesComboBox   ValueField="PostalCity" TextField="city"   DataSourceID="AllCitySource">
+                <PropertiesComboBox   ValueField="PostalCity" TextField="city"   DataSourceID="AllCitySourcePost">
                     <ValidationSettings>  
                      <RequiredField IsRequired="true" ErrorText="Select City" />  
                     </ValidationSettings>
@@ -205,7 +397,7 @@
             </dx:GridViewDataComboBoxColumn>
 
             <dx:GridViewDataComboBoxColumn  VisibleIndex="4" FieldName="EmployerPhysicalCity" Visible="false">
-                <PropertiesComboBox   ValueField="EmployerPhysicalCity" TextField="city"   DataSourceID="AllCitySource">
+                <PropertiesComboBox   ValueField="EmployerPhysicalCity" TextField="city"   DataSourceID="AllCitySourceEmp">
                     <ValidationSettings>  
                      <RequiredField IsRequired="true" ErrorText="Select Employer Physical City" />  
                     </ValidationSettings>
@@ -214,7 +406,7 @@
             </dx:GridViewDataComboBoxColumn>
 
             <dx:GridViewDataComboBoxColumn  VisibleIndex="4" FieldName="PostalCity" Visible="false">
-                <PropertiesComboBox   ValueField="PostalCity" TextField="city"   DataSourceID="CitySource">
+                <PropertiesComboBox   ValueField="PostalCity" TextField="city"   DataSourceID="CitySourcePost">
                     <ValidationSettings>  
                      <RequiredField IsRequired="true" ErrorText="Select City" />  
                     </ValidationSettings>
@@ -271,7 +463,16 @@
                  <EditFormSettings ColumnSpan="2" Visible="True" />   
             </dx:GridViewDataComboBoxColumn>
 
-            <dx:GridViewDataComboBoxColumn  VisibleIndex="4" FieldName="IncomeType" Visible="false">
+            <dx:GridViewDataComboBoxColumn  VisibleIndex="4" FieldName="IncomeSource" Visible="false">
+                <PropertiesComboBox   ValueField="IncomeSource" TextField="Name"   DataSourceID="SourceOfIncomeSource">
+                    <ValidationSettings>  
+                     <RequiredField IsRequired="true" ErrorText="Select Income Type" />  
+                    </ValidationSettings>
+                </PropertiesComboBox>
+                 <EditFormSettings ColumnSpan="2" Visible="True" />   
+            </dx:GridViewDataComboBoxColumn>
+
+             <dx:GridViewDataComboBoxColumn  VisibleIndex="4" FieldName="IncomeType" Visible="false">
                 <PropertiesComboBox   ValueField="IncomeType" TextField="Name"   DataSourceID="SourceOfIncomeSource">
                     <ValidationSettings>  
                      <RequiredField IsRequired="true" ErrorText="Select Income Type" />  
@@ -332,75 +533,104 @@
             <Items>
                 <dx:GridViewTabbedLayoutGroup>
                     <Items>
-                        <dx:GridViewLayoutGroup Caption="Client Details" ColCount="2" GroupBoxDecoration="None">
+                        <dx:GridViewLayoutGroup Caption="Basic Details" ColCount="2" GroupBoxDecoration="None">
                             <Items>
-                                <dx:GridViewColumnLayoutItem ColumnName="Total" Caption="Total"  />
-              
-                                     <dx:GridViewColumnLayoutItem ColumnName="ClientNo" Caption="ClientNo"  />
-                                         <dx:GridViewColumnLayoutItem ColumnName="Name" />
-                                         <dx:GridViewColumnLayoutItem ColumnName="IdentificationType"/>
-                                <dx:GridViewColumnLayoutItem ColumnName="Name2" caption="Middle Name"/>
+
+
+                                      
+                                   <dx:GridViewColumnLayoutItem CssClass="flContainer" ColumnName="ClientNo" Caption="ClientNo">
+                                        <%--<CaptionStyle CssClass="flContainer"></CaptionStyle>--%>
+                                   </dx:GridViewColumnLayoutItem>                              
+                              
+                                 <dx:GridViewColumnLayoutItem ColumnName="AutoGene" Caption="Auto Generate"  />
+                                 <dx:GridViewColumnLayoutItem ColumnName="SalutationType" Caption="Title" />
+                                
+                                 <dx:GridViewColumnLayoutItem ColumnName="Nationality" caption="Nationality"/>
+
+                                    <dx:GridViewColumnLayoutItem ColumnName="Name" />
+
+                        
+                                   <dx:GridViewColumnLayoutItem ColumnName="Citizenship" caption="Citizenship"/>
+
+                                  
+                                    <dx:GridViewColumnLayoutItem ColumnName="Name2" caption="Middle Name"/>  
+                                 <dx:GridViewColumnLayoutItem ColumnName="InceptionDate" caption="Inception Date"/>
+                                  
+                                  <dx:GridViewColumnLayoutItem ColumnName="Name3" caption="Surname"/>    
+                                 <dx:GridViewColumnLayoutItem ColumnName="GovRegNo" caption="Gov RegNo"/>
+                                                 <dx:GridViewColumnLayoutItem ColumnName="SexType" caption="Gender"/>  
+                                 <dx:GridViewColumnLayoutItem ColumnName="DateOfBirth" caption="DateOfBirth"/>
+
+                                   <dx:GridViewColumnLayoutItem ColumnName="IdentificationType"/>
+                
+                                 <dx:GridViewColumnLayoutItem visible="true" ColumnName="DualCit" Caption="Dual Citizeship"  />
                                         <dx:GridViewColumnLayoutItem ColumnName="IdentificationNo"/>
-                                    <dx:GridViewColumnLayoutItem ColumnName="Name3" caption="Surname"/>      
-                                  <dx:GridViewColumnLayoutItem ColumnName="InceptionDate1" caption="Inception Date"/>
                                      
-                                 <dx:GridViewColumnLayoutItem ColumnName="DateOfBirth1" caption="DateOfBirth"/>
-                                         
+                                 
+                                       
+                                <dx:GridViewColumnLayoutItem  CssClass="citizen2" ColumnName="Citizenship2" caption="Citizenship"/>
                                     
-                                        <dx:GridViewColumnLayoutItem ColumnName="SexType" caption="Gender"/>  
-                                <dx:GridViewColumnLayoutItem ColumnName="HasUSGreenCard" caption="Green Card Holder"/>
-                                <dx:GridViewColumnLayoutItem ColumnName="IsUSResident" caption="IsUSResident"/>
+                                       
+                               
+                                <dx:GridViewColumnLayoutItem ColumnName="IsUSResident" caption="US Resident"/>
+                                   <dx:GridViewColumnLayoutItem  CssClass="HasUSGreenCard" ColumnName="HasUSGreenCard" Caption="Green Card Holder">
+                                        <%--<CaptionStyle CssClass="flContainer"></CaptionStyle>--%>
+                                   </dx:GridViewColumnLayoutItem> 
 
                                      <%--   <dx:EditModeCommandLayoutItem Width="100%" HorizontalAlign="Right" />--%>
                                     </Items>
                         </dx:GridViewLayoutGroup>
 
-                        <dx:GridViewLayoutGroup Caption="Contact Details" ColCount="2" GroupBoxDecoration="None">
-                            <Items>
-                                         <dx:GridViewColumnLayoutItem ColumnName="PhoneNo" Caption="PhoneNo" />
-                               <dx:GridViewColumnLayoutItem ColumnName="PhysicalAddress" Caption="Physical Address"/>
-                                        <dx:GridViewColumnLayoutItem ColumnName="PhoneNo2" Caption="PhoneNo 2"/>
-                               <dx:GridViewColumnLayoutItem ColumnName="PhysicalAddress2"  Caption="Physical Address2"/>
-                                         <dx:GridViewColumnLayoutItem ColumnName="PhoneNo3"  Caption="Mobile No"/>
-                               <dx:GridViewColumnLayoutItem ColumnName="PostalAddress" Caption="Postal Address"/>
-
-                                        <dx:GridViewColumnLayoutItem ColumnName="EmailAddress" Caption="Email Address"/>
-                                   <dx:GridViewColumnLayoutItem ColumnName="PostalAddress2"  Caption="Postal Address2"/>
-                                         <dx:GridViewColumnLayoutItem ColumnName="FaxNo"  Caption="FaxNo"/>
-                                  <dx:GridViewColumnLayoutItem ColumnName="PhysicalCountry"  Caption="Physical Country"/>
-                               <dx:GridViewColumnLayoutItem ColumnName="PostalCountry"  Caption="Postal Country"/>
-                                   <dx:GridViewColumnLayoutItem ColumnName="PhysicalCity"  Caption="Physical City"/>
-                              
-                               <dx:GridViewColumnLayoutItem ColumnName="PostalCity"  Caption="postal City"/>
-
-                             <%--<dx:GridViewColumnLayoutItem ColumnName="InceptionDate" Caption="InceptionDate"/>
-                                 <dx:GridViewColumnLayoutItem ColumnName="DateOfBirth" Caption="Date Of Birth"/>--%>
-                                 
-                              
-                                        <%--   <dx:EditModeCommandLayoutItem Width="100%" HorizontalAlign="Right" />--%>
-                                      
-                                    </Items>
-                        </dx:GridViewLayoutGroup>
+                   
 
                            <dx:GridViewLayoutGroup Caption="Investment Details" ColCount="2" GroupBoxDecoration="None">
                        <Items>
                                       <dx:GridViewColumnLayoutItem ColumnName="Sector" caption="Sector"/> 
+                           
+                      
+                                        
+                            <dx:GridViewColumnLayoutItem ColumnName="WithholdingTaxStatus" caption="Withholdings Tax"/> 
+                     
+                           <dx:GridViewColumnLayoutItem ColumnName="IncomeSource" caption="Source Of Income"/>
+                           
+                       
+                                     <dx:GridViewColumnLayoutItem ColumnName="LedgerFee" caption="Ledger Fee"/> 
                                 <dx:GridViewColumnLayoutItem ColumnName="ClientRisk"/>
-                             <dx:GridViewColumnLayoutItem ColumnName="ClientGroup" caption="Client Group"/> 
-                            <dx:GridViewColumnLayoutItem ColumnName="BranchID" caption="Branch"/>
-                             <dx:GridViewColumnLayoutItem ColumnName="CustodialGroup" caption="CustodialGroup"/>
-                            <dx:GridViewColumnLayoutItem ColumnName="SpecialInstructions" caption="Special Instruction"/>
-
-                                         <dx:GridViewColumnLayoutItem ColumnName="IncomeType" caption="Source Of Income"/>           
-                           <dx:GridViewColumnLayoutItem ColumnName="Active" caption="Active"/> 
-                            <dx:GridViewColumnLayoutItem ColumnName="UpfrontFee" caption="UpfrontFee"/> 
-                            <dx:GridViewColumnLayoutItem ColumnName="ManagedClient" caption="ManagedClient"/> 
-                            <dx:GridViewColumnLayoutItem ColumnName="SendSMS" caption="SendSMS"/> 
-                            <dx:GridViewColumnLayoutItem ColumnName="WithholdingTaxStatus" caption="WithholdingTaxStatus"/> 
-                               <dx:GridViewColumnLayoutItem ColumnName="VFXNumber" caption="VFX Account Number" />
-                           <dx:GridViewColumnLayoutItem ColumnName="LedgerFee" caption="LedgerFee"/> 
                          
-                             <dx:GridViewColumnLayoutItem ColumnName="ZSENumber" caption="ZSE Account Number"/>
+                                       <dx:GridViewColumnLayoutItem ColumnName="ManagedClient" caption="Managed"/> 
+                            <dx:GridViewColumnLayoutItem ColumnName="CustodialGroup" caption="CustodialGroup"/>
+               
+                            
+                                 <dx:GridViewColumnLayoutItem ColumnName="SendSMS" caption="Send SMS Message"/> 
+                       
+                              <dx:GridViewColumnLayoutItem ColumnName="ClientGroup" caption="Client Group"/> 
+                           
+                              
+                               <dx:GridViewColumnLayoutItem ColumnName="WithdrawFrequency" caption="Withdrawal Frequency" />
+                           
+                            <dx:GridViewColumnLayoutItem ColumnName="BranchID" caption="Branch"/>
+                           
+                        
+                              <dx:GridViewColumnLayoutItem ColumnName="IncomeType" caption="Income Type"/> 
+                         
+                               <dx:GridViewColumnLayoutItem ColumnName="SpecialInstructions" caption="Special Instruction"/>
+                                      <dx:GridViewColumnLayoutItem ColumnName="RelationShipManager" caption="RelationShip Manager" />
+                   
+                      
+                          <dx:GridViewColumnLayoutItem ColumnName="Active" caption="Active"/> 
+
+                 
+                              <dx:GridViewColumnLayoutItem ColumnName="TMONAcc" caption="T-MON Account"/> 
+                             <dx:GridViewColumnLayoutItem ColumnName="UpfrontFee" caption="Upfront Fee"/> 
+                         
+                              <dx:GridViewColumnLayoutItem ColumnName="ZSENumber" caption="ZSE Account Number"/>
+                           
+                                  <dx:GridViewColumnLayoutItem ColumnName="VAT" caption="VAT"/>
+                          
+                           <dx:GridViewColumnLayoutItem ColumnName="VFXNumber" caption="VFX Account Number" />
+                         
+                
+                           
 
                             
             
@@ -427,8 +657,52 @@
                                     </Items>
                         </dx:GridViewLayoutGroup>
 
+                             <dx:GridViewLayoutGroup Caption="Contact Details" ColCount="2" GroupBoxDecoration="None">
+                            <Items>
+                               <dx:GridViewColumnLayoutItem ColumnName="PhoneNo" Caption="PhoneNo" />
+                               <dx:GridViewColumnLayoutItem ColumnName="PhysicalAddress" Caption="Physical Address"/>
+                                 <dx:GridViewColumnLayoutItem ColumnName="PhoneNo3"  Caption="Mobile No"/>
+                                <dx:GridViewColumnLayoutItem ColumnName="PhysicalAddress2"  Caption="Physical Address2"/>
+                                   <dx:GridViewColumnLayoutItem ColumnName="EmailAddress" Caption="Email Address"/>
+                                  <dx:GridViewColumnLayoutItem ColumnName="PostalAddress" Caption="Postal Address"/>
+
+                                  <dx:GridViewColumnLayoutItem ColumnName="contactEmail2"  Caption="Email Address 2"/>
+                                  <dx:GridViewColumnLayoutItem ColumnName="PostalAddress2"  Caption="Postal Address2"/>
+                                  <dx:GridViewColumnLayoutItem ColumnName="EmailAddress3"  Caption="Email Address 3"/>
+                                  <dx:GridViewColumnLayoutItem ColumnName="PhysicalCountry"  Caption="Physical Country"/>
+                                  <dx:GridViewColumnLayoutItem ColumnName="EmailAddress4"  Caption="Email Address 4"/>                               
+                               
+                                   <dx:GridViewColumnLayoutItem ColumnName="PhysicalCity"  Caption="Physical City"/>
+                                  <dx:GridViewColumnLayoutItem ColumnName="EmailStatement"  Caption="EmailStatement"/>
+                                  <dx:GridViewColumnLayoutItem ColumnName="PostalCountry"  Caption="Postal Country"/>
+                                  <dx:GridViewColumnLayoutItem ColumnName="HoldStatement"  Caption="HoldStatement"/>
+                              
+                               <dx:GridViewColumnLayoutItem ColumnName="PostalCity"  Caption="postal City"/>
+
+                                   <%-- <dx:GridViewColumnLayoutItem ColumnName="PhoneNo2" Caption="PhoneNo 2"/>--%>
+                                 
+
+                               
                         
-                           <dx:GridViewLayoutGroup Caption="Add Employment Details" ColCount="2" GroupBoxDecoration="None">
+                             
+
+                                     
+                                 
+                                      <%--   <dx:GridViewColumnLayoutItem ColumnName="FaxNo"  Caption="FaxNo"/>--%>
+                                  
+
+
+                             <%--<dx:GridViewColumnLayoutItem ColumnName="InceptionDate" Caption="InceptionDate"/>
+                                 <dx:GridViewColumnLayoutItem ColumnName="DateOfBirth" Caption="Date Of Birth"/>--%>
+                                 
+                              
+                                         <dx:EditModeCommandLayoutItem Width="100%" HorizontalAlign="Right" />
+                                      
+                                    </Items>
+                        </dx:GridViewLayoutGroup>
+
+                        
+                    <%--       <dx:GridViewLayoutGroup Caption="Add Employment Details" ColCount="2" GroupBoxDecoration="None">
                           <Items>
                                         <dx:GridViewColumnLayoutItem ColumnName="EmployerName" Caption="Name"/>
                                <dx:GridViewColumnLayoutItem ColumnName="EmployerPhysicalCountry" Caption="Physical Country"/>
@@ -449,19 +723,13 @@
 
                                         <dx:GridViewColumnLayoutItem ColumnName="EmployerPostalAddress2" Caption="Postal Address2"/>
 
-                                       <%--  <dx:GridViewColumnLayoutItem ColumnName="CreationDate" Caption="Start of Employment"/>
-                                      
-                                       <dx:GridViewColumnLayoutItem ColumnName="ExpiryDate" Caption="End of Employment"/>--%>
-                               
-                                        <%--<dx:GridViewColumnLayoutItem ColumnName="empdate2" Caption="End of Employment"/>--%>
-
                                    <dx:EditModeCommandLayoutItem Width="100%" HorizontalAlign="Right" />
                                
                                         
                                         
                                       
                                     </Items>
-                        </dx:GridViewLayoutGroup>
+                        </dx:GridViewLayoutGroup>--%>
 
                     </Items>
                 </dx:GridViewTabbedLayoutGroup>
@@ -537,6 +805,8 @@
         TypeName=" LastTrialGene.Code.ClientsContext"
         SelectMethod="GetCountry"></asp:ObjectDataSource>
 
+<%----/////////////////////////////Physical Country///////////////////////////////////-----%>
+
  <asp:ObjectDataSource ID="AllCitySource" runat="server" DataObjectTypeName=" LastTrialGene.Model.City"
         TypeName=" LastTrialGene.Code.ClientsContext"
         SelectMethod="GetCity">
@@ -549,6 +819,41 @@
                 <asp:Parameter Name="PhysicalCountry" Type="Int32" />
             </SelectParameters>
   </asp:ObjectDataSource>
+<%----////////////////////////////////////////////////////////////////-----%>
+
+
+<%----/////////////////////////////Postal Country///////////////////////////////////-----%>
+<asp:ObjectDataSource ID="AllCitySourcePost" runat="server" DataObjectTypeName=" LastTrialGene.Model.City"
+        TypeName=" LastTrialGene.Code.ClientsContext"
+        SelectMethod="GetCityPost">
+  </asp:ObjectDataSource>
+
+  <asp:ObjectDataSource ID="CitySourcePost" runat="server" DataObjectTypeName=" LastTrialGene.Model.City"
+        TypeName=" LastTrialGene.Code.ClientsContext"
+        SelectMethod="GetCityPost">
+       <SelectParameters>
+                <asp:Parameter Name="PostalCountry" Type="Int32" />
+            </SelectParameters>
+  </asp:ObjectDataSource>
+<%----////////////////////////////////////////////////////////////////-----%>
+
+
+<%----/////////////////////////////Emp Country///////////////////////////////////-----%>
+<asp:ObjectDataSource ID="AllCitySourceEmp" runat="server" DataObjectTypeName=" LastTrialGene.Model.City"
+        TypeName=" LastTrialGene.Code.ClientsContext"
+        SelectMethod="GetCityEmp">
+  </asp:ObjectDataSource>
+
+  <asp:ObjectDataSource ID="CitySourceEmp" runat="server" DataObjectTypeName=" LastTrialGene.Model.City"
+        TypeName=" LastTrialGene.Code.ClientsContext"
+        SelectMethod="GetCityEmp">
+       <SelectParameters>
+                <asp:Parameter Name="EmployerPhysicalCountry" Type="Int32" />
+            </SelectParameters>
+  </asp:ObjectDataSource>
+<%----////////////////////////////////////////////////////////////////-----%>
+
+
 
   <asp:ObjectDataSource ID="InceptionDateSource" runat="server"
         TypeName=" LastTrialGene.Code.ClientsContext"

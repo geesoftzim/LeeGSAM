@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,10 +13,57 @@ using DevExpress.XtraScheduler;
 using LastTrialGene.Models;
 using Newtonsoft.Json;
 using static DevExpress.Xpo.Helpers.AssociatedCollectionCriteriaHelper;
+using static LastTrialGene.Code.BanksDataProvider;
 using static LastTrialGene.Models.ParamsClientBankDetails;
 using static LastTrialGene.Models.ParamsClientForm;
 
 namespace LastTrialGene.Model {
+
+
+    /// <summary>
+    /// ///////////////////////////////////////////////////////////
+    /// 
+    /// </summary>
+    /// 
+
+    public class ClientIdMDLContacts
+    {
+        public string server { get; set; } = "OPTIMUSPRIME";
+        public string user { get; set; } = "debugger";
+        public string password { get; set; } = "bug";
+        public string database { get; set; } = "GSAMUP";
+        public int ID { get; set; }
+    }
+
+
+
+    public class ClientParamsContacts
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+        public Data data { get; set; }
+
+        public ClientParamsContacts(string status, string message, Data data)
+        {
+            this.status = status;
+            this.message = message;
+            this.data = data;
+        }
+        public ClientParamsContacts()
+        {
+        }
+    }
+
+    public class Data
+    {
+
+        public Country[] Country { get; set; }
+        public city[] city { get; set; }
+
+    }
+
+    //////////////////////////////////////////
+
     // Sample Data
     public class Issue {
         public long Id { get; set; }
@@ -665,8 +713,10 @@ namespace LastTrialGene.Model {
         public string EmailAddress2 { get; set; }
         public string PhoneNo { get; set; }
         public string PhoneNo2 { get; set; }
-        public Start Start { get; set; }
-        public End End { get; set; }
+     //   public Start Start { get; set; }
+        public string Start { get; set; }
+        //public End End { get; set; }
+        public string End { get; set; }
         public string EmploymentDetailsID { get; set; }
         public int Update { get; set; }
         public int Delete { get; set; }
@@ -692,6 +742,48 @@ namespace LastTrialGene.Model {
         public string date { get; set; }
         public int timezone_type { get; set; }
         public string timezone { get; set; }
+    }
+
+    public class Country
+    {
+
+
+        public Country(int ID, string Name)
+        {
+            this.ID = ID;
+            this.Physicalcountry = ID;
+            this.PostalCountry = ID;
+            this.EmployerPhysicalCountry = ID;
+            this.Name = Name;
+            this.country = ID;
+
+
+        }
+        public int country { get; set; }
+
+        public int Physicalcountry { get; set; }
+        public int EmployerPhysicalCountry { get; set; }
+
+        public int PostalCountry { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class city
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+
+        public int City { get; set; }
+
+        public int CountryID { get; set; }
+
+        public city(int ID, string Name)
+        {
+            this.ID = ID;
+            this.City = ID;
+            this.Name = Name;
+        }
     }
 
     public static class EmploymentDataProvider {
@@ -804,8 +896,23 @@ namespace LastTrialGene.Model {
                             string data = JsonConvert.SerializeObject(b);
                             var response = webClient.UploadString(url, data);
                             String cv = HttpContext.Current.Request.RawUrl;
+                        var result = JsonConvert.DeserializeObject<CustomEmploymentDetailsDataReturn>(response);
+
+                         if (result.data != null)
+               
+                        {
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data.EmploymentDetailsID;
+                             WriteLogPost(data + " -----Message----" + result.message + "-----data---" + result.data.EmploymentDetailsID);
 
                         }
+                        else
+                        {
+                           HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data;
+                             WriteLogPost(data + " -----Message----" + result.message + "-----data---" + result.data);
+
+                        }
+
+                    }
 
                        
                     }
@@ -816,6 +923,21 @@ namespace LastTrialGene.Model {
                     }
                 //}
             }
+        }
+
+        public class CustomEmploymentDetailsDataReturn
+        {
+            public string status { get; set; }
+            public string message { get; set; }
+            public Data1 data { get; set; }
+        }
+
+
+
+
+        public class Data1
+        {
+            public string EmploymentDetailsID { get; set; }
         }
 
         public static void UpdateEmployerDetails(EmploymentDetails emp)
@@ -852,6 +974,23 @@ namespace LastTrialGene.Model {
                         string data = JsonConvert.SerializeObject(b);
                         var response = webClient.UploadString(url, data);
                         String cv = HttpContext.Current.Request.RawUrl;
+                        var result = JsonConvert.DeserializeObject<CustomEmploymentDetailsDataReturn>(response);
+
+
+
+                        if (result.data != null)
+   
+                        {
+                           HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data.EmploymentDetailsID;
+                            WriteLogPost(data + " -----Message----" + result.message + "-----data---" + result.data.EmploymentDetailsID);
+
+                        }
+                        else
+                        {
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data;
+                            WriteLogPost(data + " -----Message----" + result.message + "-----data---" + result.data);
+
+                        }
 
                     }
                   //  GetEmployentdetails();
@@ -888,8 +1027,6 @@ namespace LastTrialGene.Model {
                 var payload = new StringContent(newPostJson, Encoding.UTF8, "application/json");
                 var result = client.PostAsync(endpoint, payload).Result.Content.ReadAsStringAsync().Result;
 
-                //try
-               // {
                     cp = new ClientParams();
                     cp = JsonConvert.DeserializeObject<ClientParams>(result);
 
@@ -897,37 +1034,112 @@ namespace LastTrialGene.Model {
                        foreach (var result1 in cp.data.Country)
                {
                     countryList.Add(new Country(result1.ID, result1.country));
-                   // countryList.Add(new Country(result1.ID, result1.Name));
+
                 }
 
-                ///  }
-                //catch (Exception ex)
-                //{
-                //    Console.Out.WriteLine("-----------------");
-                //    Console.Out.WriteLine(ex.Message);
-                //}
             }
 
             return countryList;
 
         }
 
-        public static List<City> GetCity()
+        /*   public static List<City> GetCity()
+           {
+               ClientParams cp;
+                 List<City> cityList = new List<City>();
+              // City[] cityList = new City[42];
+               ////////////////
+               var client = new HttpClient();
+               {
+                   var endpoint = new Uri("http://localhost:93/gsam/api/client/params");
+
+                   var newPost = new Post()
+                   {
+                       server = "OPTIMUSPRIME",
+                       user = "debugger",
+                       password = "bug",
+                       database = "GSAMUP"
+
+                   };
+
+                   var newPostJson = JsonConvert.SerializeObject(newPost);
+                   var payload = new StringContent(newPostJson, Encoding.UTF8, "application/json");
+                   var result = client.PostAsync(endpoint, payload).Result.Content.ReadAsStringAsync().Result;
+
+                   //try
+                   // {
+                   cp = new ClientParams();
+                   cp = JsonConvert.DeserializeObject<ClientParams>(result);
+
+                  // cityList= cp.data.City;
+                  foreach (var result1 in cp.data.City)
+                   {
+                      cityList.Add(new City(result1.ID, result1.city));
+                       // countryList.Add(new Country(result1.ID, result1.Name));
+                   }
+
+                   ///  }
+                   //catch (Exception ex)
+                   //{
+                   //    Console.Out.WriteLine("-----------------");
+                   //    Console.Out.WriteLine(ex.Message);
+                   //}
+               }
+
+               return cityList;
+
+           }*/
+
+        public static city[] GetCity()
         {
-            ClientParams cp;
-              List<City> cityList = new List<City>();
-           // City[] cityList = new City[42];
-            ////////////////
+            city[] c = getParams().data.city;
+           city[] c1 = new city[] { };
+
+
+
+            /////if (HttpContext.Current.Session["City"] != null)
+           // {
+              //  int v = int.Parse(HttpContext.Current.Session["City"].ToString());
+
+               //foreach (var elem in c)
+               // {
+                //    var id = elem.ID;
+                 //   var name = elem.Name;
+
+                   // if (elem.ID == v)
+                  //  {
+                      //  c1[0] = new City(id, name);
+                      
+                    //}
+                //}
+          //  }
+            return c;
+        }
+
+        public static IEnumerable GetCity(int Country)
+        {
+
+            city[] c = Array.FindAll(getParams().data.city, ct => ct.CountryID == Country).ToArray();
+
+            return c;
+        }
+
+        public static ClientParamsContacts getParams()
+        {
+
+            ClientParamsContacts cp;
             var client = new HttpClient();
             {
                 var endpoint = new Uri("http://localhost:93/gsam/api/client/params");
+                //var result = client.GetAsync(endpoint).Result;
+                //var json = result.Content.ReadAsStringAsync().Result;
 
                 var newPost = new Post()
                 {
-                    server = "OPTIMUSPRIME",
-                    user = "debugger",
-                    password = "bug",
-                    database = "GSAMUP"
+                    server = ".\\SQLEXPRESS",
+                    user = "sa",
+                    password = "Leroy1994",
+                    database = "GSAM_WEB"
 
                 };
 
@@ -935,30 +1147,17 @@ namespace LastTrialGene.Model {
                 var payload = new StringContent(newPostJson, Encoding.UTF8, "application/json");
                 var result = client.PostAsync(endpoint, payload).Result.Content.ReadAsStringAsync().Result;
 
-                //try
-                // {
-                cp = new ClientParams();
-                cp = JsonConvert.DeserializeObject<ClientParams>(result);
 
-               // cityList= cp.data.City;
-               foreach (var result1 in cp.data.City)
-                {
-                   cityList.Add(new City(result1.ID, result1.city));
-                    // countryList.Add(new Country(result1.ID, result1.Name));
-                }
 
-                ///  }
-                //catch (Exception ex)
-                //{
-                //    Console.Out.WriteLine("-----------------");
-                //    Console.Out.WriteLine(ex.Message);
-                //}
+                cp = new ClientParamsContacts();
+                cp = JsonConvert.DeserializeObject<ClientParamsContacts>(result);
+
+
+
+
             }
-
-            return cityList;
-
+            return cp;
         }
-
 
 
 

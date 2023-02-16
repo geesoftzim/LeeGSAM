@@ -4,6 +4,23 @@
 <asp:Content runat="server" ContentPlaceHolderID="Head">
     <link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Content/GridView.css") %>' />
     <script type="text/javascript" src='<%# ResolveUrl("~/Content/GridView.js") %>'></script>
+
+
+
+
+        <script type="text/javascript"> 
+
+
+        function CountriesCombo_SelectedIndexChanged(s, e) {
+            console.log('physical city fired');
+          
+            gridView.GetEditor("City").PerformCallback(s.GetValue());
+        }
+
+
+
+
+    </script>
 </asp:Content>
 
 <asp:Content  runat="server" ContentPlaceHolderID="PageToolbar">
@@ -58,7 +75,20 @@
         CssClass="grid-view" Width="100%"
         DataSourceID="GridViewDataSource"
         OnCustomCallback="GridView_CustomCallback"
-        OnInitNewRow="GridView_InitNewRow">
+        OnInitNewRow="GridView_InitNewRow"  OnCellEditorInitialize="grid_CellEditorInitialize" OnRowValidating="grid_RowValidating" OnRowInserted="ASPxGridView1_RowInserted" onrowupdated="GridView_RowUpdated">
+                   <clientsideevents
+        EndCallback="function(s, e) {
+                        if (s.cpUpdatedMessage) {
+                            alert(s.cpUpdatedMessage);
+                            delete s.cpUpdatedMessage;
+                        }
+                      if (s.cpInsertNote) {
+                            alert(s.cpInsertNote);
+                            delete s.cpInsertNote;
+                        }
+                    }"
+    />
+
         <Columns>
             <dx:GridViewCommandColumn ShowSelectCheckbox="True" SelectAllCheckboxMode="AllPages" VisibleIndex="0" Width="52"></dx:GridViewCommandColumn>
         <%--<dx:GridViewDataHyperLinkColumn FieldName="id" CellStyle-HorizontalAlign="Left" Caption="EmployerName" Width="300px" ExportCellStyle-HorizontalAlign="Left">
@@ -75,17 +105,19 @@
                 </EditItemTemplate>
             </dx:GridViewDataHyperLinkColumn>--%>
 
-            <dx:GridViewDataComboBoxColumn VisibleIndex="1" FieldName="Country" Visible="false">
-                <PropertiesComboBox  ValueField="ID" TextField="Country" ValueType="System.Int64"  DataSourceID="ContactsDataSource">
-                                    
-                    <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic"></ValidationSettings>
+            <dx:GridViewDataComboBoxColumn VisibleIndex="1" FieldName="Country"  Visible="false">
+                <PropertiesComboBox ValueField="ID" TextField="Name" ValueType="System.Int64"  DataSourceID="ContactsDataSource">
+                      <ClientSideEvents SelectedIndexChanged="CountriesCombo_SelectedIndexChanged" />
                 </PropertiesComboBox>
                  <EditFormSettings ColumnSpan="2" Visible="True" />  
             </dx:GridViewDataComboBoxColumn>
+
+
+
             
 
             <dx:GridViewDataComboBoxColumn VisibleIndex="1" FieldName="City" Visible="false">
-                <PropertiesComboBox  ValueField="ID" TextField="City" ValueType="System.Int64"  DataSourceID="ObjectDataSourceCity">
+                <PropertiesComboBox  ValueField="City" TextField="Name" ValueType="System.Int64"  DataSourceID="AllCitySource">
                                     
                     <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic"></ValidationSettings>
                 </PropertiesComboBox>
@@ -95,64 +127,82 @@
            
        
 
-            <%--<dx:GridViewDataColumn FieldName="Customer.FullName" Caption="Customer Name" Width="150px" />
-            <dx:GridViewDataColumn FieldName="Customer.Email" Width="230px" />--%>
 
-          <%--  <dx:GridViewDataMemoColumn FieldName="Notes" Visible="false">
-                <PropertiesMemoEdit Rows="3"></PropertiesMemoEdit>
-            </dx:GridViewDataMemoColumn>--%>
-            <%--<dx:GridViewDataComboBoxColumn FieldName="Kind" CellStyle-HorizontalAlign="Center" Width="80">
-                <DataItemTemplate>
-                    <dx:ASPxImage runat="server" CssClass='<%# string.Format("column-image kind{0}", Eval("[Kind]")) %>' />
-                </DataItemTemplate>
-                <PropertiesComboBox ShowImageInEditBox="true">
-                    <ItemImage Width="12" Height="12"></ItemImage>
-                    <Items>
-                        <dx:ListEditItem Text="Bug" Value="1" ImageUrl="Content/Images/kind1.svg" />
-                        <dx:ListEditItem Text="Suggestion" Value="2" ImageUrl="Content/Images/kind2.svg" />
-                    </Items>
-                </PropertiesComboBox>
-            </dx:GridViewDataComboBoxColumn>--%>
-           <%-- <dx:GridViewDataComboBoxColumn FieldName="Priority" CellStyle-HorizontalAlign="Center" Width="90">
-                <DataItemTemplate>
-                    <dx:ASPxImage runat="server" CssClass='<%# string.Format("column-image priority{0}", Eval("[Priority]")) %>' />
-                </DataItemTemplate>
-                <PropertiesComboBox ShowImageInEditBox="true">
-                    <ItemImage Width="12" Height="12"></ItemImage>
-                    <Items>
-                        <dx:ListEditItem Text="High" Value="1" ImageUrl="Content/Images/priority1.svg" />
-                        <dx:ListEditItem Text="Medium" Value="2" ImageUrl="Content/Images/priority2.svg" />
-                        <dx:ListEditItem Text="Low" Value="3" ImageUrl="Content/Images/priority3.svg" />
-                    </Items>
-                </PropertiesComboBox>
-            </dx:GridViewDataComboBoxColumn>--%>
-            <%--<dx:GridViewDataComboBoxColumn FieldName="Status" CellStyle-HorizontalAlign="Center" Width="90">
-                <DataItemTemplate>
-                        <span class="status-column <%# Convert.ToInt32(Eval("[Status]")) == 1 ? "active" : "closed" %>"></span>
-                </DataItemTemplate>
-                <PropertiesComboBox>
-                    <Items>
-                        <dx:ListEditItem Text="Active" Value="1" />
-                        <dx:ListEditItem Text="Closed" Value="2" />
-                    </Items>
-                </PropertiesComboBox>
-            </dx:GridViewDataComboBoxColumn>--%>
-           <%-- <dx:GridViewDataColumn FieldName="Votes" Width="80">
-                <DataItemTemplate>
-                    <%# Convert.ToInt32(Eval("[Votes]")) != 0 ? "<span class='votes-column'>" + Eval("[Votes]") + "</span>" : "" %>
-                </DataItemTemplate>
-            </dx:GridViewDataColumn>--%>
             <dx:GridViewDataColumn Visible="true" FieldName="id" />
-            <dx:GridViewDataColumn FieldName="EmployerName" />
-            <dx:GridViewDataColumn FieldName="Address" />
+            <dx:GridViewDataTextColumn FieldName="EmployerName" Width="25%">
+                <PropertiesTextEdit>
+                <ValidationSettings>
+             
+                    <RequiredField ErrorText="Employer Name required" IsRequired="True" />
+                </ValidationSettings>
+            </PropertiesTextEdit>
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewDataTextColumn FieldName="Address">
 
-        <dx:GridViewDataColumn  FieldName="EmailAddress"/>
+                 <PropertiesTextEdit>
+                <ValidationSettings>
+             
+                    <RequiredField ErrorText="Employer Name required" IsRequired="True" />
+                </ValidationSettings>
+            </PropertiesTextEdit>
+            </dx:GridViewDataTextColumn>
+
+
+
+
+                    <dx:GridViewDataTextColumn FieldName="EmailAddress" Visible="false">
+             <PropertiesTextEdit>
+                <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a valid email address" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
+                    <RequiredField ErrorText="Email required" IsRequired="True" />
+                </ValidationSettings>
+            </PropertiesTextEdit>
+        </dx:GridViewDataTextColumn>
+
+                                <dx:GridViewDataTextColumn FieldName="EmailAddress2" Visible="false">
+             <PropertiesTextEdit>
+                <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a valid email address" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
+                </ValidationSettings>
+            </PropertiesTextEdit>
+        </dx:GridViewDataTextColumn>
         
 
-    
-            <dx:GridViewDataColumn FieldName="EmailAddress2" />
-            <dx:GridViewDataColumn FieldName="PhoneNo" />
-             <dx:GridViewDataColumn FieldName="PhoneNo2" />
+            <dx:GridViewDataTextColumn FieldName="PhoneNo" Width="25%">
+                                                 <PropertiesTextEdit>
+                         <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a valid phone number" ValidationExpression="^[0-9]*$" />
+                 <RequiredField ErrorText="Enter phonenumber" IsRequired="True" />
+                 </ValidationSettings>
+                 </PropertiesTextEdit>
+            </dx:GridViewDataTextColumn>
+
+             <dx:GridViewDataTextColumn FieldName="PhoneNo2">
+                                                  <PropertiesTextEdit>
+                         <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a valid phone number" ValidationExpression="^[0-9]*$" />
+           
+                 </ValidationSettings>
+                 </PropertiesTextEdit>
+             </dx:GridViewDataTextColumn>
+
+            
+            <dx:GridViewDataDateColumn FieldName="Start" >  
+              <PropertiesDateEdit DisplayFormatString="dd-MM-yyyy" EditFormatString="dd-MM-yyyy">
+                <ValidationSettings>  
+               <RequiredField IsRequired="true" ErrorText="Select Start Date" />  
+              </ValidationSettings>
+              </PropertiesDateEdit>  
+               </dx:GridViewDataDateColumn>
+
+            
+            <dx:GridViewDataDateColumn FieldName="End" >  
+              <PropertiesDateEdit DisplayFormatString="dd-MM-yyyy" EditFormatString="dd-MM-yyyy">
+                                      <ValidationSettings>  
+                     <RequiredField IsRequired="true" ErrorText="Select End Date" />  
+                    </ValidationSettings>
+              </PropertiesDateEdit>  
+               </dx:GridViewDataDateColumn>
          
              
        
@@ -179,14 +229,22 @@
                 <dx:GridViewLayoutGroup ColCount="2" GroupBoxDecoration="None">
                     <Items>
                         <dx:GridViewColumnLayoutItem ColumnName="EmployerName" />
-                        <dx:GridViewColumnLayoutItem ColumnName="Address" Caption="Address" />
-                        <dx:GridViewColumnLayoutItem ColumnName="EmailAddress" CAPTION="Work Email"/>
-                       
-                        <dx:GridViewColumnLayoutItem ColumnName="PhoneNo" CaptionSettings-AllowWrapCaption="False" />
-                         <dx:GridViewColumnLayoutItem ColumnName="EmailAddress2" CAPTION="HR Email"/>
-                        <dx:GridViewColumnLayoutItem ColumnName="PhoneNo2" CaptionSettings-AllowWrapCaption="False" />
-                       <dx:GridViewColumnLayoutItem ColumnName="Country" />
-                        <dx:GridViewColumnLayoutItem ColumnName="City" />
+                      
+                           <dx:GridViewColumnLayoutItem ColumnName="PhoneNo2" caption="Phone Number2" />
+                      
+                        <dx:GridViewColumnLayoutItem ColumnName="Address" Caption="Physical Address" />
+                         <dx:GridViewColumnLayoutItem ColumnName="EmailAddress" CAPTION="Email Address"/>
+                          <dx:GridViewColumnLayoutItem ColumnName="Country" />
+                              <dx:GridViewColumnLayoutItem ColumnName="EmailAddress2" CAPTION="Email Address2"/>
+                   
+                           <dx:GridViewColumnLayoutItem ColumnName="City" />
+                                    <dx:GridViewColumnLayoutItem ColumnName="Start" Caption="Start Date" />            
+                   
+                        
+                     
+                     
+                           <dx:GridViewColumnLayoutItem ColumnName="PhoneNo" caption="Phone Number" />
+                        <dx:GridViewColumnLayoutItem ColumnName="End" Caption="End Date"/>
                      <%--   <dx:GridViewColumnLayoutItem ColumnName="IsArchived" CaptionSettings-AllowWrapCaption="False" />
                         <dx:GridViewColumnLayoutItem ColumnName="Kind"></dx:GridViewColumnLayoutItem>
                         <dx:GridViewColumnLayoutItem ColumnName="Priority" />
@@ -212,9 +270,26 @@
         TypeName=" LastTrialGene.Model.EmploymentDataProvider"
         SelectMethod="GetCountry"></asp:ObjectDataSource>
 
-      <asp:ObjectDataSource ID="ObjectDataSourceCity" runat="server" DataObjectTypeName=" LastTrialGene.Model.City"
+
+    <%----------------ddd ---------%>
+         <asp:ObjectDataSource ID="AllCitySource" runat="server" DataObjectTypeName=" LastTrialGene.Model.City"
         TypeName=" LastTrialGene.Model.EmploymentDataProvider"
-        SelectMethod="GetCity"></asp:ObjectDataSource>
+        SelectMethod="GetCity">
+  </asp:ObjectDataSource>
+
+  <asp:ObjectDataSource ID="CitySource" runat="server" DataObjectTypeName=" LastTrialGene.Model.City"
+        TypeName=" LastTrialGene.Model.EmploymentDataProvider"
+        SelectMethod="GetCity">
+       <SelectParameters>
+                <asp:Parameter Name="country" Type="Int32" />
+            </SelectParameters>
+  </asp:ObjectDataSource>
+        
+         <%---------------------------------%>
+
+     <%-- <asp:ObjectDataSource ID="ObjectDataSourceCity" runat="server" DataObjectTypeName=" LastTrialGene.Model.City"
+        TypeName=" LastTrialGene.Model.EmploymentDataProvider"
+        SelectMethod="GetCity"></asp:ObjectDataSource>--%>
 
 </asp:Content>
 

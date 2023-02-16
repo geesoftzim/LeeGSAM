@@ -73,6 +73,7 @@ namespace LastTrialGene
         public void SelectRow()
         {
             Session["SelectedClientID"] = grdSearch.GetSelectedFieldValues("ID")[0];
+            Session["SelectedClientName"] = grdSearch.GetSelectedFieldValues("Name")[0];
             Session["SelectedCounterType"] = grdSearch.GetSelectedFieldValues("CounterpartyType")[0];
             int countertype = int.Parse(Session["SelectedCounterType"].ToString());
             Response.Redirect("~/index.aspx");

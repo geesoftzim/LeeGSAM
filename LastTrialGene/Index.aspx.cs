@@ -59,7 +59,7 @@ namespace LastTrialGene
                             lblIdentificationNo.Text = result.data.IdentificationNo.ToString();
                             lblPostalAddress.Text = (result.data.PostalAddress ?? "").ToString() + ", " + (result.data.PostalAddress2 ?? "").ToString() + ", " + (result.data.PostalCityName ?? "").ToString() + ", " + (result.data.PostalCountryName ?? "").ToString();
                             lblNationality.Text = (result.data.NationalityName ?? "").ToString();
-                            lblDateOfBirth.Text = result.data.DateOfBirth.date.ToString();
+                            lblDateOfBirth.Text = result.data.DateOfBirth.ToString();
                             if (result.data.Active == 1)
                             {
                                 chkActiveDetails.Checked = true;

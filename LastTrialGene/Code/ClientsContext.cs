@@ -166,8 +166,9 @@ namespace LastTrialGene.Code
                     HttpContext.Current.Session["Salutationtype"] = pm1.data.SalutationType;
                     HttpContext.Current.Session["Sex"] = pm1.data.SexType;
                     HttpContext.Current.Session["Nationality"] = pm1.data.Nationality;
-                    HttpContext.Current.Session["date"] = pm1.data.DateOfBirth.date;
-                    HttpContext.Current.Session["InceptionDate"] = pm1.data.InceptionDate.date;
+                    //HttpContext.Current.Session["date"] = pm1.data.DateOfBirth.date;
+                    HttpContext.Current.Session["date"] = pm1.data.DateOfBirth.ToString();
+                    HttpContext.Current.Session["InceptionDate"] = pm1.data.InceptionDate.ToString();
                 }
                 //    Response.Redirect("aaac.aspx");
                 return pm1.data;
@@ -344,6 +345,91 @@ namespace LastTrialGene.Code
              }*/
             return c;
         }
+
+
+        
+        public static ParamsClientForm.City[] GetCityPost()
+        {
+            ParamsClientForm.City[] c = getParams().data.City;
+
+            if (HttpContext.Current.Session["City"] != null)
+            {
+                int v = int.Parse(HttpContext.Current.Session["City"].ToString());
+
+                foreach (var elem in c)
+                {
+                    var id = elem.ID;
+                    var name = elem.Name;
+
+                    if (elem.ID == v)
+                    {
+                        c[0] = new ParamsClientForm.City(id, name);
+                    }
+                }
+            }
+            return c;
+        }
+
+        public static IEnumerable GetCityPost(int PostalCountry)
+        {
+
+            ParamsClientForm.City[] c = Array.FindAll(getParams().data.City, ct => ct.CountryID == PostalCountry).ToArray();
+
+            return c;
+        }
+
+
+        public static ParamsClientForm.City[] GetCityEmp()
+        {
+            ParamsClientForm.City[] c = getParams().data.City;
+
+            if (HttpContext.Current.Session["City"] != null)
+            {
+                int v = int.Parse(HttpContext.Current.Session["City"].ToString());
+
+                foreach (var elem in c)
+                {
+                    var id = elem.ID;
+                    var name = elem.Name;
+
+                    if (elem.ID == v)
+                    {
+                        c[0] = new ParamsClientForm.City(id, name);
+                    }
+                }
+            }
+            return c;
+        }
+
+        public static IEnumerable GetCityEmp(int EmployerPhysicalCountry)
+        {
+            // PhysicalCountry = 4;
+            //    City[] c = getParams().data.City;
+            ParamsClientForm.City[] c = Array.FindAll(getParams().data.City, ct => ct.CountryID == EmployerPhysicalCountry).ToArray();
+            //  return from c in ParamsClientForm.City
+            //     where c.PhysicalCountry == PhysicalCountry //countryID
+            //      select c;
+
+            /** if (HttpContext.Current.Session["City"] != null)
+             {
+                 int v = int.Parse(HttpContext.Current.Session["City"].ToString());
+
+                 foreach (var elem in c)
+                 {
+                     var id = elem.ID;
+                     var name = elem.Name;
+
+                     if (elem.ID == v)
+                     {
+                         c[0] = new City(id, name);
+                     }
+                 }
+             }*/
+            return c;
+        }
+
+
+
         public static RiskRating[] GetRiskRating()
         {
             RiskRating[] c = getParams().data.RiskRating;
@@ -413,24 +499,7 @@ namespace LastTrialGene.Code
 
         public static Identificationtype[] GetIdentification()
         {
-            /* Identificationtype[] c = getParams().data.IdentificationType;
 
-             if (HttpContext.Current.Session["Identificationtype"] != null)
-             {
-                 int v = int.Parse(HttpContext.Current.Session["Identificationtype"].ToString());
-
-                 foreach (var elem in c)
-                 {
-                     var id = elem.IdentificationType;
-                     var name = elem.Name;
-                     var corp = elem.Corporate;
-
-                     if (elem.IdentificationType.Equals(v))
-                     {
-                         c[0] = new Identificationtype(id, name,corp);
-                     }
-                 }
-             }*/
             ParamsClientForm.Identificationtype[] c = Array.FindAll(getParams().data.IdentificationType, ct => ct.Corporate == 0).ToArray();
             return c;
         }
@@ -545,9 +614,9 @@ namespace LastTrialGene.Code
             return c;
         }
 
-        public static ParamsClientForm.Nationality[] GetNationality()
+        public static ParamsClientForm.nationality[] GetNationality()
         {
-            ParamsClientForm.Nationality[] c = getParams().data.Nationality;
+            ParamsClientForm.nationality[] c = getParams().data.Nationality;
 
             if (HttpContext.Current.Session["Nationality"] != null)
             {
@@ -560,7 +629,7 @@ namespace LastTrialGene.Code
 
                     if (id == v)
                     {
-                        c[0] = new ParamsClientForm.Nationality(id, Name);
+                        c[0] = new ParamsClientForm.nationality(id, Name);
                     }
                 }
             }
@@ -698,7 +767,7 @@ namespace LastTrialGene.Code
                 newClient.CustodialID = 0;
                 newClient.CounterpartyType = int.Parse(HttpContext.Current.Session["ClientTypeSec"].ToString());///(@cboCounterpartyType.Value == null ? 0 : (int)cboCounterpartyType.Value);
                 newClient.CustodialGroup = emp.CustodialGroup;//int.Parse(cust.Value.ToString());// (cboCustodialGroup.Value == null ? 0 : (int)cboCustodialGroup.Value);
-                //newClient.InceptionDate = DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.InceptionDate = emp.InceptionDate.ToString();//DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.SpecialInstructions = //physicalAddress.Text;
                 newClient.BranchID = emp.BranchID.ToString();//int.Parse(branch.ToString());//int.Parse(cboBranch.Value.ToString()); //(@cboBranch.Value == null ? 0 : (int)cboBranch.Value);
                 newClient.PhysicalAddress = emp.PhysicalAddress;//physicalAddress.Text;
@@ -839,7 +908,7 @@ namespace LastTrialGene.Code
                 newClient.ClientNo = emp.ClientNo;//txtclientno.Text;//HttpContext.Current.Session["SelectedClientID"].ToString();
                 newClient.Corporate = false;
                 newClient.SalutationType = emp.SalutationType;//;int.Parse(salutationtype.Value.ToString());
-                newClient.DateOfBirth = DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.DateOfBirth = emp.DateOfBirth.ToString();//DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.IndustryType = 0;
                 newClient.RegistrationOffice = "";
                 newClient.VATRegistrationNo = "";
@@ -853,7 +922,7 @@ namespace LastTrialGene.Code
                 newClient.CustodialID = 0;
                 newClient.CounterpartyType = 0;///(@cboCounterpartyType.Value == null ? 0 : (int)cboCounterpartyType.Value);
                 newClient.CustodialGroup = emp.CustodialGroup;//int.Parse(cust.Value.ToString());// (cboCustodialGroup.Value == null ? 0 : (int)cboCustodialGroup.Value);
-               // newClient.InceptionDate = DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.InceptionDate = emp.InceptionDate.ToString();//DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.SpecialInstructions = //physicalAddress.Text;
                 newClient.BranchID = emp.BranchID.ToString();//int.Parse(branch.ToString());//int.Parse(cboBranch.Value.ToString()); //(@cboBranch.Value == null ? 0 : (int)cboBranch.Value);
                 newClient.PhysicalAddress = emp.PhysicalAddress;//physicalAddress.Text;
@@ -924,7 +993,7 @@ namespace LastTrialGene.Code
                 newClient.ExpiryDate = DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.GovRegNo = emp.GovRegNo;//txtGovRegNo.Text;
                 newClient.RelationshipManager = 0;
-                newClient.GovBody = "";
+                newClient.GovBody = emp.GovBody;
                 newClient.UseGlobalPortfolioModel = "";
                 newClient.CountryOfResidence = 1;// (@drpCountryOfResidence.Value == null ? 0 : (int)drpCountryOfResidence.Value);
                 newClient.SendSMS = emp.SendSMS==1?true:false;//(bool)chkSendSms.Value;

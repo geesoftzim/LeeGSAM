@@ -58,7 +58,19 @@
         CssClass="grid-view" Width="100%"
         DataSourceID="GridViewDataSource"
         OnCustomCallback="GridView_CustomCallback"
-        OnInitNewRow="GridView_InitNewRow">
+        OnInitNewRow="GridView_InitNewRow" OnRowInserted="ASPxGridView1_RowInserted" onrowupdated="GridView_RowUpdated" OnRowValidating="grid_RowValidating">
+                   <clientsideevents
+        EndCallback="function(s, e) {
+                        if (s.cpUpdatedMessage) {
+                            alert(s.cpUpdatedMessage);
+                            delete s.cpUpdatedMessage;
+                        }
+                      if (s.cpInsertNote) {
+                            alert(s.cpInsertNote);
+                            delete s.cpInsertNote;
+                        }
+                    }"
+    />
         <Columns>
             <dx:GridViewCommandColumn ShowSelectCheckbox="True" SelectAllCheckboxMode="AllPages" VisibleIndex="0" Width="52"></dx:GridViewCommandColumn>
          
@@ -66,6 +78,9 @@
 
             <dx:GridViewDataComboBoxColumn VisibleIndex="2" FieldName="CounterIndustryType" Visible="false">
                 <PropertiesComboBox ValueField="CounterIndustryType" TextField="CounterIndustryTypeName" DataSourceID="DataSourceCounterIndustryType">
+                   <ValidationSettings>  
+                     <RequiredField IsRequired="true" ErrorText="Select Counter Industry" />  
+                    </ValidationSettings>
                 </PropertiesComboBox>
                 <EditFormSettings ColumnSpan="2" Visible="True" />
             </dx:GridViewDataComboBoxColumn>
@@ -73,7 +88,7 @@
             <dx:GridViewDataColumn Visible="false" FieldName="ID" />
             <dx:GridViewDataColumn Visible="false" FieldName="ClientID"/>
           
-            <dx:GridViewDataColumn FieldName="CounterIndustryTypeName" Width="25%"/>
+            <dx:GridViewDataColumn FieldName="CounterIndustryTypeName"  Width="25%"/>
             <dx:GridViewDataColumn FieldName="Percentage" Width="25%"/>
             <dx:GridViewDataCheckColumn FieldName="Global" Width="20%"/>
            <%-- <dx:GridViewDataCheckColumn FieldName="GlobalClientID" Width="25%" />--%>
@@ -137,30 +152,6 @@
 
 </asp:Content>
 
-<%--<asp:Content runat="server" ContentPlaceHolderID="LeftPanelContent">
-    <h3 class="leftpanel-section section-caption">Filters</h3>
-    <dx:ASPxNavBar runat="server" ID="FiltersNavBar" ClientInstanceName="filtersNavBar"
-        AllowSelectItem="true" ShowGroupHeaders="false"
-        Width="100%" CssClass="filters-navbar">
-        <ItemStyle CssClass="item" />
-        <Groups>
-            <dx:NavBarGroup>
-                <Items>
-                    <dx:NavBarItem Text="All" Selected="true" Name="All" />
-                 
-                    <dx:NavBarItem Text="Active issues" Name="Active" />
-                    <dx:NavBarItem Text="Bugs" Name="Bugs" />
-                    <dx:NavBarItem Text="Suggestions" Name="Suggestions" />
-
-                    <dx:NavBarItem Text="High priority" Name="HighPriority" />
-                </Items>
-            </dx:NavBarGroup>
-         
-        </Groups>
-        <ClientSideEvents ItemClick="onFiltersNavBarItemClick" />
-           
-    </dx:ASPxNavBar>
-</asp:Content>--%>
 <asp:Content runat="server" ContentPlaceHolderID="LeftPanelContent">
 <uc1:SideBar runat="server" Visible="true" id="SideBar" />
     </asp:Content>

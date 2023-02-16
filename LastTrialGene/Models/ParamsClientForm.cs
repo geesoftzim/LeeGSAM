@@ -1,4 +1,5 @@
 ﻿using DevExpress.DocumentServices.ServiceModel.DataContracts;
+using LastTrialGene.ContactsContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace LastTrialGene.Models
             public Salutationtype[] SalutationType { get; set; }
             public Identificationtype[] IdentificationType { get; set; }
             public Sex[] Sex { get; set; }
-            public Nationality[] Nationality { get; set; }
+            public nationality[] Nationality { get; set; }
             public Country[] Country { get; set; }
             public City[] City { get; set; }
             public Sector[] Sector { get; set; }
@@ -89,8 +90,11 @@ namespace LastTrialGene.Models
             public Salutationtype(string Type, string Name) {
                 this.Type= Type;
                 this.Name= Name;
+                this.SalutationType = Type;
             }
             public string Type { get; set; }
+            public string SalutationType { get; set; }
+            
             public string Name { get; set; }
         }
 
@@ -123,16 +127,24 @@ namespace LastTrialGene.Models
             public string SexName { get; set; }
         }
 
-        public class Nationality
+        public class nationality
         {
             public int ID { get; set; }
+            public int Nationality { get; set; }
+            public int Citizenship { get; set; }
+            public int Citizenship2 { get; set; }
             public string Name { get; set; }
-            public Nationality(int ID, string Name) { 
-            this.ID= ID;
+            public nationality(int ID, string Name) { 
+                this.ID= ID;
+                this.Nationality = ID;
+                this.Citizenship = ID;
+                this.Citizenship2 = ID;
                 this.Name= Name;
             }
 
         }
+
+        
 
         public class Country
         {
@@ -202,9 +214,12 @@ namespace LastTrialGene.Models
             public int ID { get; set; }
             
             public int IncomeType { get; set; }
+            public int IncomeSource { get; set; }
+            
             public string Name { get; set; }
             public SourceOfIncome(int ID, string Name) { 
                 this.IncomeType = ID;
+                this.IncomeSource = ID;
                 this.Name= Name;
             
             }

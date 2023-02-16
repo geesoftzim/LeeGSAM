@@ -39,7 +39,11 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                           <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                                class="rounded-circle img-fluid" style="width: 150px;">-->
+
+                      
+                                <img  src='<%= ResolveUrl("~/Content/Images/ava3.jpg") %>' alt="avatar"
                                 class="rounded-circle img-fluid" style="width: 150px;">
                             <h5 class="my-3">
                                 <asp:Label ID="lblLongName" runat="server" Text=""></asp:Label></h5>

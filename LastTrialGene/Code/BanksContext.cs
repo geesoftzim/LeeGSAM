@@ -304,13 +304,14 @@ namespace LastTrialGene.Code
                         string data = JsonConvert.SerializeObject(createBankDetails);
                         var response = webClient.UploadString(url, data);
                         //var result = JsonConvert.DeserializeObject<BankDetailsMDL>(response);
-                        var result = JsonConvert.DeserializeObject<ClientParams>(response);
+                        //  var result = JsonConvert.DeserializeObject<ClientParams>(response);
+                        var result = JsonConvert.DeserializeObject<CustomBankDetailsDataReturn>(response);
                         System.Console.WriteLine(result);
 
 
                         if (result.data != null)
                         {
-                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data;
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data.BankDetailsID;
                             WriteLogPost("BanksContext.cs AddNewCounterBank()" + data + " -----Message----" + result.message + "-----data---" + result.data);
 
                         }
@@ -333,7 +334,18 @@ namespace LastTrialGene.Code
             }
         }
 
-        public static void UpdateCounterBank(BankDetailsData2 emp)
+        public class CustomBankDetailsDataReturn
+        {
+            public string status { get; set; }
+            public string message { get; set; }
+            public Data1 data { get; set; }
+        }
+
+        public class Data1 {
+            public string BankDetailsID { get; set; }
+        }
+
+    public static void UpdateCounterBank(BankDetailsData2 emp, int ID)
         {
           // lock (lockObject) { 
             if (HttpContext.Current.Session["SelectedClientID"] != null)
@@ -367,13 +379,13 @@ namespace LastTrialGene.Code
                         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
                         string data = JsonConvert.SerializeObject(createBankDetails);
                         var response = webClient.UploadString(url, data);
-                        //var result = JsonConvert.DeserializeObject<BankDetailsMDL>(response);
-                        var result = JsonConvert.DeserializeObject<ClientParams>(response);
+                        var result = JsonConvert.DeserializeObject<CustomBankDetailsDataReturn>(response);
+                        
                         System.Console.WriteLine(result);
 
                         if (result.data != null)
                         {
-                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated RecordID=" + result.data;
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated RecordID=" + result.data.BankDetailsID;
                             WriteLogPost("BanksContext.cs UpdateCounterBank()" + data + " -----Message----" + result.message + "-----data---" + result.data);
 
                         }

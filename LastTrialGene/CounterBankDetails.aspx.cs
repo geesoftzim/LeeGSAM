@@ -1,4 +1,5 @@
 ﻿using DevExpress.Web;
+using DevExpress.Web.Data;
 using LastTrialGene.Model;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,37 @@ namespace LastTrialGene
         protected void Page_Load(object sender, EventArgs e)
         {
 
+        }
+        protected void grid_CellEditorInitialize(object sender, ASPxGridViewEditorEventArgs e)
+        {
+
+            if (e.Column.FieldName == "AccountName")
+            {
+                 e.Editor.Value = Session["SelectedClientName"].ToString();
+            }
+
+        }
+
+
+
+        protected void GridView_RowUpdated(object sender, ASPxDataUpdatedEventArgs e)
+        {
+            //
+
+
+            if (e.Exception == null)
+            {
+                ((ASPxGridView)sender).JSProperties["cpUpdatedMessage"] = HttpContext.Current.Session["UpdateMessage"];// "Your update has been saved successfully";
+            }
+        }
+
+
+        protected void ASPxGridView1_RowInserted(object sender, DevExpress.Web.Data.ASPxDataInsertedEventArgs e)
+        {
+            if (e.Exception == null)
+            {
+                ((ASPxGridView)sender).JSProperties["cpInsertNote"] = HttpContext.Current.Session["UpdateMessage"];//"The row is inserted successfully";
+            }
         }
 
         public static void WriteLogFile(string message)
@@ -40,9 +72,13 @@ namespace LastTrialGene
                   }
               }*/
 
-          
-            if (e.NewValues["AccountName"] == null)
+
+            if (e.NewValues["AccountName"] == null) {
+               
+                GridView.JSProperties["cpText"] = "AccountName  Can Not be Blank";
                 AddError(e.Errors, GridView.Columns["AccountName"], "AccountName  Can Not be Blank");
+            }
+              
 
             if (e.NewValues["AccountNo"] == null)
                 AddError(e.Errors, GridView.Columns["AccountNo"], "AccountNo Can Not be Blank");

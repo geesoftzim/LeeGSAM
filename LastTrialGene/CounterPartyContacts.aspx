@@ -72,17 +72,13 @@
         OnCustomCallback="GridView_CustomCallback"
         OnInitNewRow="GridView_InitNewRow"
         PreviewFieldName="Name" OnRowInserted="ASPxGridView1_RowInserted" onrowupdated="GridView_RowUpdated" OnRowValidating="grid_RowValidating" OnEditFormLayoutCreated="grid_EditFormLayoutCreated" OnCellEditorInitialize="grid_CellEditorInitialize">
-        <clientsideevents
+           <clientsideevents
         EndCallback="function(s, e) {
                         if (s.cpUpdatedMessage) {
                             alert(s.cpUpdatedMessage);
                             delete s.cpUpdatedMessage;
                         }
-                    }"
-    />
-                <clientsideevents
-        EndCallback="function(s, e) {
-                        if (s.cpInsertNote) {
+                      if (s.cpInsertNote) {
                             alert(s.cpInsertNote);
                             delete s.cpInsertNote;
                         }
@@ -206,6 +202,14 @@
             <dx:GridViewDataMemoColumn FieldName="PostalAddress2" Width="20%" Visible="false"/>
             <dx:GridViewDataColumn FieldName="PhoneNo" Width="20%" />
 
+                 <dx:GridViewDataDateColumn FieldName="CreationDate" >  
+              <PropertiesDateEdit DisplayFormatString="dd-MM-yyyy" EditFormatString="dd-MM-yyyy">
+                                      <ValidationSettings>  
+                     <RequiredField IsRequired="true" ErrorText="Select Date Of Birth" />  
+                    </ValidationSettings>
+              </PropertiesDateEdit>  
+               </dx:GridViewDataDateColumn>
+
 
 
             <%-- <dx:GridViewDataColumn  FieldName="EmailAddress"/>
@@ -240,23 +244,24 @@
             <Items>
                 <dx:GridViewTabbedLayoutGroup>
                     <Items>
-                        <dx:GridViewLayoutGroup Caption="Contact Details" ColCount="2" GroupBoxDecoration="None">
+                        <dx:GridViewLayoutGroup Caption="Basic Details" ColCount="2" GroupBoxDecoration="None">
                             <Items>
-                                <dx:GridViewColumnLayoutItem ColumnName="SalutationType" />
+                                <dx:GridViewColumnLayoutItem ColumnName="SalutationType" Caption="Title"/>
                                 <dx:GridViewColumnLayoutItem ColumnName="Nationality" Caption="Nationality" />
-                                <dx:GridViewColumnLayoutItem ColumnName="SexID" Caption="GenderType" />
+                                <dx:GridViewColumnLayoutItem ColumnName="SexID" Caption="Sex" />
                                 <dx:GridViewColumnLayoutItem ColumnName="Citizenship" Caption="Citizenship" />
-                                <dx:GridViewColumnLayoutItem ColumnName="Name" />
+                                <dx:GridViewColumnLayoutItem ColumnName="Name" Caption="First Name" />
 
                                 <dx:GridViewColumnLayoutItem ColumnName="Citizenship2" Caption="Citizenship 2" />
-                                <dx:GridViewColumnLayoutItem ColumnName="IdentificationType" Caption="Identification Type" />
+                                <dx:GridViewColumnLayoutItem ColumnName="IdentificationType" Caption="ID Type" />
 
 
 
                                 <dx:GridViewColumnLayoutItem ColumnName="OwnershipPercent" Caption="Ownership Percent" />
-                                <dx:GridViewColumnLayoutItem ColumnName="IdentificationNo" Caption="IdentificationNo" />
+                                <dx:GridViewColumnLayoutItem ColumnName="IdentificationNo" Caption="ID Number" />
 
                                 <dx:GridViewColumnLayoutItem ColumnName="HasUSGreenCard" Caption="HasUSGreenCard" />
+                                  <dx:GridViewColumnLayoutItem ColumnName="CreationDate" Caption="Date Of Birth" />
                                 <dx:GridViewColumnLayoutItem ColumnName="IsUSResident" Caption="IsUSResident" />
                                 
                                 
@@ -277,7 +282,7 @@
                             </Items>
                         </dx:GridViewLayoutGroup>
 
-                        <dx:GridViewLayoutGroup Caption="Address" ColCount="2" GroupBoxDecoration="None">
+                        <dx:GridViewLayoutGroup Caption="Contact Details" ColCount="2" GroupBoxDecoration="None">
                             <Items>
 
                                 <dx:GridViewColumnLayoutItem ColumnName="PhysicalAddress" />

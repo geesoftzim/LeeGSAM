@@ -69,13 +69,22 @@ namespace LastTrialGene
         protected global::System.Web.UI.WebControls.ObjectDataSource ContactsDataSource;
 
         /// <summary>
-        /// ObjectDataSourceCity control.
+        /// AllCitySource control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataSourceCity;
+        protected global::System.Web.UI.WebControls.ObjectDataSource AllCitySource;
+
+        /// <summary>
+        /// CitySource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource CitySource;
 
         /// <summary>
         /// SideBar control.

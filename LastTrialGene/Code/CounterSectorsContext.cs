@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -71,6 +72,9 @@ namespace LastTrialGene.CounterSectorsContext
     }
     public class CounterSector
     {
+
+        public CounterSector() { 
+        }
         public static int GlobalClientID { get; set; }
         public int ID { get; set; }
         public int ClientID { get; set; }
@@ -80,77 +84,7 @@ namespace LastTrialGene.CounterSectorsContext
 
         public string CounterIndustryTypeName { get; set; }
 
-        //public List<CounterSector> Fill()
-        //{
-        //    try
-        //    {
-        //        PortModellingACCall accall = new PortModellingACCall();
-        //        accall.server = ".\\SQLEXPRESS";
-        //        accall.database = "GSAM_WEB";
-        //        accall.user = "sa";
-        //        accall.password = "Leroy1994";
-        //        accall.ClientID = GlobalClientID;
 
-        //        var webClient = new WebClient();
-        //        {
-        //            var url = "http:localhost:93/gsam/api/client/view_portfolio_modelling_counter_sectors";
-
-        //            webClient.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-        //            webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-        //            string data = JsonConvert.SerializeObject(accall);
-        //            var response = webClient.UploadString(url, data);
-        //            PortModellingCSReturn result = JsonConvert.DeserializeObject<PortModellingCSReturn>(response);
-        //            return result.data;
-
-        //        }
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-
-
-        //public void Update(
-        //     int ID, int ClientID, int CounterIndustryType, float Percentage)
-        //{
-
-        //    try
-        //    {
-        //        PortModellingCounterSectorsUpdate csu = new PortModellingCounterSectorsUpdate();
-        //        csu.server = ".\\SQLEXPRESS";
-        //        csu.database = "GSAM_WEB";
-        //        csu.user = "sa";
-        //        csu.password = "Leroy1994";
-        //        csu.ClientID = ClientID;
-        //        csu.CounterIndustryType = CounterIndustryType;
-        //        csu.Percentage = Percentage;
-        //        csu.Global = false;
-        //        csu.ID = ID;
-        //        csu.Update = true;
-        //        csu.Delete = false;
-
-        //        var webClient = new WebClient();
-        //        {
-        //            var url = "http:localhost:93/gsam/api/client/update_portfolio_modelling_counter_sector";
-
-        //            webClient.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-        //            webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-        //            string data = JsonConvert.SerializeObject(csu);
-        //            var response = webClient.UploadString(url, data);
-        //            //PortModellingCSReturn result = JsonConvert.DeserializeObject<PortModellingCSReturn>(response);
-        //            //return result.data;
-
-        //        }
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
 
 
     }
@@ -214,6 +148,7 @@ namespace LastTrialGene.CounterSectorsContext
         {
             // var result = "";
             List <CounterSector> counterSectors=  new List<CounterSector>();
+            List<CounterSector> counterSectors1 = new List<CounterSector>();
 
             if (HttpContext.Current.Session["SelectedClientID"] != null)
             {
@@ -236,7 +171,15 @@ namespace LastTrialGene.CounterSectorsContext
                         string data = JsonConvert.SerializeObject(accall);
                         var response = webClient.UploadString(url, data);
                         PortModellingCSReturn result = JsonConvert.DeserializeObject<PortModellingCSReturn>(response);
-                        counterSectors = result.data;
+                       
+
+                        if (result.data != null)
+                        {
+                            counterSectors = result.data;
+                        }
+                        else {
+                          //  return counterSectors1;
+                        }
                          
 
                     }
@@ -247,7 +190,7 @@ namespace LastTrialGene.CounterSectorsContext
                 return counterSectors;
                 }
             else {
-                return counterSectors;
+                return counterSectors1;
             }
           
     
@@ -284,13 +227,6 @@ namespace LastTrialGene.CounterSectorsContext
                     pm = new PortModellingParamsReturn();
                     pm = JsonConvert.DeserializeObject<PortModellingParamsReturn>(result);
                     portModellingParams = pm.data;
-                 
-                   // CounterIndustryType x =   new CounterIndustryType(portModellingParams.Type, portModellingParams.Name);
-                    //bank_array = pm.data.Banks;
-                    /**  foreach (var result1 in pm.data.)
-                      {
-                       banks.Add(new Bank(result1., result1.Name));
-                     }*/
 
                 }
                 catch (Exception ex)
@@ -303,7 +239,15 @@ namespace LastTrialGene.CounterSectorsContext
             return portModellingParams.CounterIndustryType; 
         }
 
-
+        public static void WriteLogPost(string message)
+        {
+            using (FileStream file = new FileStream(System.Web.HttpContext.Current.Server.MapPath("~/postlogs.txt"), FileMode.Append, FileAccess.Write))
+            {
+                StreamWriter streamWriter = new StreamWriter(file);
+                streamWriter.WriteLine(System.DateTime.Now.ToString() + ":" + message + "\n---\n");
+                streamWriter.Close();
+            }
+        }
 
 
         public static void NewCounterSectors(CounterSector counterSectors1)
@@ -339,12 +283,20 @@ namespace LastTrialGene.CounterSectorsContext
                         var result = JsonConvert.DeserializeObject<Sample.Jresponse>(response);
                         System.Console.WriteLine(result);
 
-                        //Session["SelectedClientID"] = result.data.ClientID;
-                        //    Response.Redirect("aaac.aspx");
+                        if (result.data != null)
+                        {
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data.ClientID;
+                            WriteLogPost(data + " -----Message----" + result.message + "-----data---" + result.data.ClientID);
 
-                        //  String cv = HttpContext.Current.Request.RawUrl;
-                        // String message = "new Individual Account Successfully Saved";
-                        //  Response.Redirect("webForm2.aspx?param1=" + EncryptionHelper.Encrypt(message) + "&param2=" + EncryptionHelper.Encrypt(cv));
+                        }
+                        else
+                        {
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data;
+                            WriteLogPost(data + " -----Message----" + result.message + "-----data---" + result.data);
+
+                        }
+
+
                     }
                 }
 
@@ -373,7 +325,7 @@ namespace LastTrialGene.CounterSectorsContext
                     portModellingCounterSectorsUpdate.ClientID = int.Parse(HttpContext.Current.Session["SelectedClientID"].ToString());//int.Parse(asset.ClientID.ToString());
                     portModellingCounterSectorsUpdate.CounterIndustryType = counterSectors1.CounterIndustryType;
                     portModellingCounterSectorsUpdate.Percentage = float.Parse(counterSectors1.Percentage);
-                    portModellingCounterSectorsUpdate.Global = counterSectors1.Global==1?true:false;
+                    portModellingCounterSectorsUpdate.Global = counterSectors1.Global == 1 ? true : false;
                     portModellingCounterSectorsUpdate.Update = true;
                     portModellingCounterSectorsUpdate.Delete = false;
 
@@ -395,12 +347,21 @@ namespace LastTrialGene.CounterSectorsContext
                         var result = JsonConvert.DeserializeObject<Sample.Jresponse>(response);
                         System.Console.WriteLine(result);
 
-                        //Session["SelectedClientID"] = result.data.ClientID;
-                        //    Response.Redirect("aaac.aspx");
 
-                        //  String cv = HttpContext.Current.Request.RawUrl;
-                        // String message = "new Individual Account Successfully Saved";
-                        //  Response.Redirect("webForm2.aspx?param1=" + EncryptionHelper.Encrypt(message) + "&param2=" + EncryptionHelper.Encrypt(cv));
+                        if (result.data != null)
+                        {
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data.ClientID;
+                            WriteLogPost(data + " -----Message----" + result.message + "-----data---" + result.data.ClientID);
+
+                        }
+                        else
+                        {
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data;
+                            WriteLogPost(data + " -----Message----" + result.message + "-----data---" + result.data);
+
+                        }
+
+
                     }
                 }
 
@@ -409,6 +370,7 @@ namespace LastTrialGene.CounterSectorsContext
                     throw ex;
                 }
             }
+          
 
 
         }

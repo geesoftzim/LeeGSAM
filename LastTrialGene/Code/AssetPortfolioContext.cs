@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -25,6 +26,18 @@ namespace LastTrialGene.AssetPortfolioContext
         public object status { get; set; }
         public object message { get; set; }
         public AssetClasses data { get; set; }
+    }
+
+    public class Jresponse
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+        public Data data { get; set; }
+    }
+
+    public class Data
+    {
+        public int ClientID { get; set; }
     }
 
     public class AssetClasses
@@ -169,7 +182,7 @@ namespace LastTrialGene.AssetPortfolioContext
 
                     //  portModellingAssetClasses.ID = asset.ID;
                     portModellingAssetClasses.ClientID = int.Parse(HttpContext.Current.Session["SelectedClientID"].ToString());// int.Parse(asset.ClientID);
-                    portModellingAssetClasses.MoneyMarket = portModellingAssetClasses.MoneyMarket;
+                    portModellingAssetClasses.MoneyMarket = asset.MoneyMarket;//portModellingAssetClasses.MoneyMarket;
                     portModellingAssetClasses.Bonds = asset.Bonds;
                     portModellingAssetClasses.Equities = asset.Equities;
                     portModellingAssetClasses.Property = asset.Property;
@@ -196,12 +209,20 @@ namespace LastTrialGene.AssetPortfolioContext
                         var result = JsonConvert.DeserializeObject<Sample.Jresponse>(response);
                         System.Console.WriteLine(result);
 
-                        //Session["SelectedClientID"] = result.data.ClientID;
-                        //    Response.Redirect("aaac.aspx");
 
-                        //  String cv = HttpContext.Current.Request.RawUrl;
-                        // String message = "new Individual Account Successfully Saved";
-                        //  Response.Redirect("webForm2.aspx?param1=" + EncryptionHelper.Encrypt(message) + "&param2=" + EncryptionHelper.Encrypt(cv));
+                        if (result.data != null)
+                        {
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data.ClientID;
+                            WriteLogPost("ContactsContext.cs UpdateContacts()" + data + " -----Message----" + result.message + "-----data---" + result.data.ClientID);
+
+                        }
+                        else
+                        {
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data;
+                            WriteLogPost("ContactsContext.cs UpdateContacts()" + data + " -----Message----" + result.message + "-----data---" + result.data);
+
+                        }
+
                     }
                 }
 
@@ -219,6 +240,15 @@ namespace LastTrialGene.AssetPortfolioContext
             }
                
         }
+        public static void WriteLogPost(string message)
+        {
+            using (FileStream file = new FileStream(System.Web.HttpContext.Current.Server.MapPath("~/postlogs.txt"), FileMode.Append, FileAccess.Write))
+            {
+                StreamWriter streamWriter = new StreamWriter(file);
+                streamWriter.WriteLine(System.DateTime.Now.ToString() + ":" + message + "\n---\n");
+                streamWriter.Close();
+            }
+        }
         public static void UpdateAssetClasses(AssetClasses asset)
         {
             if (HttpContext.Current.Session["SelectedClientID"] != null)
@@ -228,7 +258,7 @@ namespace LastTrialGene.AssetPortfolioContext
 
                     //  portModellingAssetClasses.ID = asset.ID;
                     portModellingAssetClasses.ClientID = int.Parse(HttpContext.Current.Session["SelectedClientID"].ToString());//int.Parse(asset.ClientID.ToString());
-                    portModellingAssetClasses.MoneyMarket = portModellingAssetClasses.MoneyMarket;
+                    portModellingAssetClasses.MoneyMarket = asset.MoneyMarket;//portModellingAssetClasses.MoneyMarket;
                     portModellingAssetClasses.Bonds = asset.Bonds;
                     portModellingAssetClasses.Equities = asset.Equities;
                     portModellingAssetClasses.Property = asset.Property;
@@ -252,15 +282,22 @@ namespace LastTrialGene.AssetPortfolioContext
                         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
                         string data = JsonConvert.SerializeObject(portModellingAssetClasses);
                         var response = webClient.UploadString(url, data);
-                        var result = JsonConvert.DeserializeObject<Sample.Jresponse>(response);
+                        var result = JsonConvert.DeserializeObject<Jresponse>(response);
                         System.Console.WriteLine(result);
 
-                        //Session["SelectedClientID"] = result.data.ClientID;
-                        //    Response.Redirect("aaac.aspx");
 
-                        //  String cv = HttpContext.Current.Request.RawUrl;
-                        // String message = "new Individual Account Successfully Saved";
-                        //  Response.Redirect("webForm2.aspx?param1=" + EncryptionHelper.Encrypt(message) + "&param2=" + EncryptionHelper.Encrypt(cv));
+                        if (result.data != null)
+                        {
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data.ClientID;
+                            WriteLogPost("ContactsContext.cs UpdateContacts()" + data + " -----Message----" + result.message + "-----data---" + result.data.ClientID);
+
+                        }
+                        else
+                        {
+                            HttpContext.Current.Session["UpdateMessage"] = result.message + "& Updated ClientID=" + result.data;
+                            WriteLogPost("ContactsContext.cs UpdateContacts()" + data + " -----Message----" + result.message + "-----data---" + result.data);
+
+                        }
                     }
                 }
 

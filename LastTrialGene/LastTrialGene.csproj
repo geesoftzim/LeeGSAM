@@ -351,6 +351,7 @@
     <Content Include="App_Data\Overview.html" />
     <Content Include="App_Data\OverviewContents.xml" />
     <Content Include="Article.aspx" />
+    <Content Include="Content\Images\ava3.jpg" />
     <Content Include="Controls\ClientsCreation2.ascx" />
     <Content Include="Controls\ClientsCreation.ascx" />
     <Content Include="CounterClients.aspx" />
@@ -1036,6 +1037,7 @@
     <Content Include="GridViewDetailsPage.aspx" />
     <Content Include="Index.aspx" />
     <Content Include="Scheduler.aspx" />
+    <Content Include="WebForm2.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Root.master" />
@@ -1330,6 +1332,13 @@
       <DependentUpon>Search.aspx</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="WebForm2.aspx.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm2.aspx.designer.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />

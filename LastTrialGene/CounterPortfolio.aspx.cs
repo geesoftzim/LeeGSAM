@@ -1,4 +1,5 @@
 ﻿using DevExpress.Web;
+using DevExpress.Web.Data;
 using LastTrialGene.Model;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,40 @@ namespace LastTrialGene
         protected void Page_Load(object sender, EventArgs e)
         {
 
+        }
+
+
+        protected void grid_RowValidating(object sender, DevExpress.Web.Data.ASPxDataValidationEventArgs e)
+        {
+
+            if (e.NewValues["Name2"] == null)
+                AddError(e.Errors, GridView.Columns["Name2"], "Name Can Not be Null");
+        }
+
+        void AddError(Dictionary<GridViewColumn, string> errors, GridViewColumn column, string errorText)
+        {
+            if (errors.ContainsKey(column)) return;
+            errors[column] = errorText;
+        }
+
+        protected void GridView_RowUpdated(object sender, ASPxDataUpdatedEventArgs e)
+        {
+            //
+
+
+            if (e.Exception == null)
+            {
+                ((ASPxGridView)sender).JSProperties["cpUpdatedMessage"] = HttpContext.Current.Session["UpdateMessage"];// "Your update has been saved successfully";
+            }
+        }
+
+
+        protected void ASPxGridView1_RowInserted(object sender, DevExpress.Web.Data.ASPxDataInsertedEventArgs e)
+        {
+            if (e.Exception == null)
+            {
+                ((ASPxGridView)sender).JSProperties["cpInsertNote"] = HttpContext.Current.Session["UpdateMessage"];//"The row is inserted successfully";
+            }
         }
 
         public static void WriteLogFile(string message)

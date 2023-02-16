@@ -40,8 +40,10 @@ namespace LastTrialGene.Models
                 public string password { get; set; }
                 public int ClientID { get; set; }
             }
+    
 
-            public class BankDetailsDataReturn
+
+        public class BankDetailsDataReturn
             {
                 public string status { get; set; }
                 public string message { get; set; }

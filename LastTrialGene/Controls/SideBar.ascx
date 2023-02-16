@@ -1,23 +1,24 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SideBar.ascx.cs" Inherits="LastTrialGene.Controls.SideBar" %>
 
 
-
+ 
+  
 
 
  <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-<link href="../Content/plugins_sidebar/fontawesome-free/css/all.min.css" rel="stylesheet" />
+<link href='<%= ResolveUrl("~/Content/plugins_sidebar/fontawesome-free/css/all.min.css") %>'  rel="stylesheet" />
   <!-- Theme style 
 <link href="../Content/dist_sidebar/css/adminlte.min.css" rel="stylesheet" /> -->
-<link href="../Content/dist_sidebar/css/adminlte.css" rel="stylesheet" />
+<link href='<%= ResolveUrl("~/Content/dist_sidebar/css/adminlte.css") %>'  rel="stylesheet"/>
   <!-- summernote -->
-  <link rel="stylesheet" href="../Content/plugins_sidebar/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href='<%= ResolveUrl("~/Content/plugins_sidebar/summernote/summernote-bs4.min.css") %>' />
   <!-- CodeMirror -->
-  <link rel="stylesheet" href="../Content/plugins_sidebar/codemirror/codemirror.css">
-  <link rel="stylesheet" href="../Content/plugins_sidebar/codemirror/theme/monokai.css">
+  <link rel="stylesheet" href='<%= ResolveUrl("~/Content/plugins_sidebar/codemirror/codemirror.css") %>'>
+  <link rel="stylesheet" href='<%= ResolveUrl("~/Content/plugins_sidebar/codemirror/theme/monokai.css") %>'>
   <!-- SimpleMDE -->
-  <link rel="stylesheet" href="../Content/plugins_sidebar/simplemde/simplemde.min.css">
+  <link rel="stylesheet"  href='<%= ResolveUrl("~/Content/plugins_sidebar/simplemde/simplemde.min.css") %>' >
 
 
 <div class="wrapper">
@@ -102,40 +103,49 @@
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-edit"></i>
               <p>
-                EQUITIES
+                Clients Information
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
-                 <li class="nav-item">
+               <!--  <li class="nav-item">
                 <a href="../ClientsCreation.aspx" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Clients Creation</p>
                 </a>
+              </li>-->
+                                 <li class="nav-item">
+                <a href="../CounterClients.aspx" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Clients</p>
+                </a>
               </li>
+
+                   <li class="nav-item">
+                <a href="../CounterBankDetails.aspx" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banks</p>
+                </a>
+              </li>
+
               <li class="nav-item">
                 <a href="../CounterEmploymentDetails.aspx" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Employment Details</p>
                 </a>
               </li>
-                 <li class="nav-item">
-                <a href="../CounterBankDetails.aspx" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Banks</p>
-                </a>
-              </li>
+              
                 <li class="nav-item">
                 <a href="../CounterPartyContacts.aspx" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Contacts</p>
+                  <p>Account Signatories And Contacts</p>
                 </a>
               </li>
                 
                  <li class="nav-item">
                 <a href="../CounterPortfolio.aspx" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Asset Portfolio</p>
+                  <p> Portfolio Modelling</p>
                 </a>
               </li>
 
@@ -146,12 +156,7 @@
                 </a>
               </li>
 
-                 <li class="nav-item">
-                <a href="../CounterClients.aspx" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Clients</p>
-                </a>
-              </li>
+
               <!--<li class="nav-item">
                 <a href="../forms/advanced.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -231,7 +236,7 @@
             </ul>
           </li>
                     
-          <li class="nav-item">
+          <!--<li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -316,8 +321,8 @@
                 </a>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
+          </li>--!>
+        <!--  <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
@@ -401,7 +406,7 @@
               </li>
 
             </ul>
-          </li>
+          </li>--!>
          <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
@@ -881,22 +886,23 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../Content/plugins_sidebar/jquery/jquery.min.js"></script>
+ <script type="text/javascript" src='<%# ResolveUrl("~/Content/SignInRegister.js") %>'></script>
+<script src='<%= ResolveUrl("~/Content/plugins_sidebar/jquery/jquery.min.js") %>'></script>
 <!-- Bootstrap 4 -->
-<script src="../Content/plugins_sidebar/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src='<%= ResolveUrl("~/Content/plugins_sidebar/bootstrap/js/bootstrap.bundle.min.js") %>'></script>
 <!-- AdminLTE App -->
-<script src="../Content/dist_sidebar/js/adminlte.min.js"></script>
+<script src='<%= ResolveUrl("~/Content/dist_sidebar/js/adminlte.min.js") %>'></script>
 <!-- Summernote -->
-<script src="../Content/plugins_sidebar/summernote/summernote-bs4.min.js"></script>
+<script  src='<%= ResolveUrl("~/Content/plugins_sidebar/summernote/summernote-bs4.min.js") %>' ></script>
 <!-- CodeMirror -->
-<script src="../Content/plugins_sidebar/codemirror/codemirror.js"></script>
-<script src="../Content/plugins_sidebar/codemirror/mode/css/css.js"></script>
-<script src="../Content/plugins_sidebar/codemirror/mode/xml/xml.js"></script>
-<script src="../Content/plugins_sidebar/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script  src='<%= ResolveUrl("~/Content/plugins_sidebar/codemirror/codemirror.js") %>'></script>
+<script  src='<%= ResolveUrl("~/Content/plugins_sidebar/codemirror/mode/css/css.js") %>' ></script>
+<script  src='<%= ResolveUrl("~/Content/plugins_sidebar/codemirror/mode/xml/xml.js") %>'></script>
+<script  src='<%= ResolveUrl("~/Content/plugins_sidebar/codemirror/mode/htmlmixed/htmlmixed.js") %>' ></script>
 
 
 <!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<script  src='<%# ResolveUrl("dist/js/demo.js") %>'></script>
 <!-- Page specific script -->
 <script>
     $(function () {

@@ -21,13 +21,15 @@ namespace LastTrialGene.Models
         public string RegistrationOffice { get; set; }
         public string VATRegistrationNo { get; set; }
         public int? CustodialGroup { get; set; }
-        public Dateofbirth DateOfBirth { get; set; }
+        //  public Dateofbirth DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
         public int? TaxStatus { get; set; }
         public int? WithholdingTaxStatus { get; set; }
         public int? ResidentShareholdersTaxStatus { get; set; }
         public int? BranchID { get; set; }
         public int? Active { get; set; }
-        public Creationdate CreationDate { get; set; }
+        //public Creationdate CreationDate { get; set; }
+        public string CreationDate { get; set; }
         public object UserID { get; set; }
         public int? Corporate { get; set; }
         public string PhysicalAddress { get; set; }
@@ -53,7 +55,8 @@ namespace LastTrialGene.Models
         public string PostalAddress3 { get; set; }
         public string InitialedName { get; set; }
         public object FileName { get; set; }
-        public Inceptiondate InceptionDate { get; set; }
+        //public Inceptiondate InceptionDate { get; set; }
+        public string InceptionDate { get; set; }
         public string SpecialInstructions { get; set; }
         public int? CustodialID { get; set; }
         public string EmailAddress2 { get; set; }
@@ -112,8 +115,9 @@ namespace LastTrialGene.Models
         public int? EstimatedTransPerMonth { get; set; }
         public int? AnticipatedTransPerMonth { get; set; }
         public string AnticipatedTotalAmount { get; set; }
-        public Expirydate ExpiryDate { get; set; }
- 
+        //public Expirydate ExpiryDate { get; set; }
+        public string ExpiryDate { get; set; }
+
         public string GovRegNo { get; set; }
         public string RelationshipManager { get; set; }
         public int? Citizenship2 { get; set; }
@@ -603,6 +607,11 @@ namespace LastTrialGene.Models
 
        public int? ID { get; set; }
         public string ClientNo { get; set; }
+
+        public string AutoGene { get; set; }
+
+        
+            public string EntityType { get; set; }
         public string Name { get; set; }
         public string Name2 { get; set; }
         public string Name3 { get; set; }
@@ -616,8 +625,18 @@ namespace LastTrialGene.Models
         public string BPNumber { get; set; }
         public DateofBirth DateofBirth { get; set; }
 
-        public string empdate { get; set; } = new DateofBirth().date!=null? new DateofBirth().date.ToString():DateTime.Now.ToString();
-        public string empdate2 { get; set; } = new DateofBirth().date != null ? new DateofBirth().date.ToString() : DateTime.Now.ToString();
+        /// <summary>
+        /// /////////////////////Custom Begins Here////////////////////////////////////////////////////////
+        /// </summary>
+        public string contactEmail2 { get; set; }
+        public string VAT { get; set; }
+
+        
+        public string empdate { get; set; } //= new DateofBirth().date!=null? new DateofBirth().date.ToString():DateTime.Now.ToString();
+        public string empdate2 { get; set; } //= new DateofBirth().date != null ? new DateofBirth().date.ToString() : DateTime.Now.ToString();
+        /// <summary>
+        /// ///////////////////////////////////Custom Ends Here//////////////////////////////////////////
+        /// </summary>
 
 
         public int IdentificationType { get; set; }
@@ -626,7 +645,7 @@ namespace LastTrialGene.Models
         public int CustodialID { get; set; }
         public int CounterpartyType { get; set; }
         public int CustodialGroup { get; set; }
-        public string InceptionDate { get; set; } = DateTime.Now.ToString();//new Inceptiondate().date!=null ? new Inceptiondate().date:DateTime.Now;//
+        public string InceptionDate { get; set; }// = DateTime.Now.ToString();//new Inceptiondate().date!=null ? new Inceptiondate().date:DateTime.Now;//
 
 
         public string SpecialInstructions { get; set; }
@@ -714,6 +733,8 @@ namespace LastTrialGene.Models
    
         public int IncomeType { get; set; }
         public int Nationality { get; set; }
+        
+            public int nationality { get; set; }
         public int DividendWTax { get; set; }
         public int Citizenship { get; set; }
         public int Sector { get; set; }
@@ -733,6 +754,7 @@ namespace LastTrialGene.Models
         public string GovBody { get; set; }
         public string UseGlobalPortfolioModel { get; set; }
         public int CountryOfResidence { get; set; }
+        public string TMONAcc { get; set; }
         public string VFXNumber { get; set; }
         public string ZSENumber { get; set; }
       
