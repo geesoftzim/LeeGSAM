@@ -14,6 +14,7 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Web;
+using static LastTrialGene.Models.ParamsClientForm;
 using static LastTrialGene.Models.Sample;
 
 namespace LastTrialGene.ContactsContext
@@ -41,15 +42,20 @@ namespace LastTrialGene.ContactsContext
     public class Country
     {
         public int ID { get; set; }
+        
+       public int CountryOfResidence { get; set; }
         public int PhysicalCountry { get; set; }
         public int PostalCountry { get; set; }
         public string Name { get; set; }
+        public string imgUrl { get; set; }
 
         public Country(int ID, string Name)
         {
+            this.CountryOfResidence = ID;
             this.PhysicalCountry = ID;
             this.PostalCountry = ID;
             this.Name = Name;
+            this.imgUrl = imgUrl;
 
         }
     }
@@ -57,23 +63,26 @@ namespace LastTrialGene.ContactsContext
     public class Data
     {
         public List<SalutationType> SalutationType { get; set; }
-        public List<IdentificationType> IdentificationType { get; set; }
+        public Identificationtype[] IdentificationType { get; set; }
         public List<Sex> Sex { get; set; }
         public List<Nationality> Nationality { get; set; }
         public List<Country> Country { get; set; }
         public List<City> City { get; set; }
     }
 
-    public class IdentificationType
+    public class Identificationtype
     {
         public string Type { get; set; }
-        public string Identificationtype { get; set; }
+        public string IdentificationType { get; set; }
+        public int Corporate { get; set; }
+        
         public string Name { get; set; }
 
-        public IdentificationType(string Type, string Name)
+        public Identificationtype(string Type, string Name,int Corporate)
         {
-            this.Identificationtype = Type;
+            this.IdentificationType = Type;
             this.Name = Name;
+            this.Corporate = Corporate;
         }
     }
 
@@ -86,6 +95,7 @@ namespace LastTrialGene.ContactsContext
         public int Citizenship2 { get; set; }
 
         public string Name { get; set; }
+        public string imgUrl { get; set; }
 
         public Nationality(int ID, string Name)
         {
@@ -93,6 +103,7 @@ namespace LastTrialGene.ContactsContext
             this.Citizenship = ID;
             this.Citizenship2 = ID;
             this.Name = Name;
+            this.imgUrl = imgUrl;
         }
     }
 
@@ -140,25 +151,42 @@ namespace LastTrialGene.ContactsContext
         public CustomObject()
         {
         }
-        public CustomObject(string ID)
+        /*public CustomObject(string ID)
         {
             this.ID = ID;
-        }
+        }*/
 
-        public CustomObject(string server, string user, string password, string ClientID)
+                public CustomObject(string ClientID,int CounterpartyID, int StockBrokerID, int CustodianID, int TransferSecretaryID)
+        {
+            this.ClientID = ClientID;
+            this.CounterpartyID = CounterpartyID;
+            this.StockBrokerID = StockBrokerID;
+            this.CustodianID = CustodianID;
+            this.TransferSecretaryID = TransferSecretaryID;
+        }
+		
+
+        /*public CustomObject(string server, string user, string password, string ClientID)
         {
             this.server = server;
             this.user = user;
             this.password = password;
             this.database = database;
             this.ClientID = ClientID;
-        }
+        }*/
         public string server { get; set; }
         public string user { get; set; }
         public string password { get; set; }
         public string database { get; set; }
         public string ClientID { get; set; }
         public string ID { get; set; }
+
+        public int CounterpartyID { get; set; }
+        public int StockBrokerID { get; set; }
+        public int CustodianID { get; set; }
+        public int TransferSecretaryID { get; set; }
+
+
 
 
     }
@@ -171,7 +199,12 @@ namespace LastTrialGene.ContactsContext
         public string database { get; set; } = "GSAMUP";
 
         public int ClientID { get; set; }
+        
+                 public int MandateType { get; set; }
+
         public int ContactType { get; set; }
+        public int CoOwner { get; set; }
+        
         public string Name { get; set; }
         public string PhysicalAddress { get; set; }
         public string PhysicalAddress2 { get; set; }
@@ -236,6 +269,31 @@ namespace LastTrialGene.ContactsContext
         public int? ContactType { get; set; }
         public int? SalutationType { get; set; }
         public string Name { get; set; }
+        /// <summary>
+        /// //////////////////////////////////////////////////
+        /// </summary>
+        /// 
+        public string Photo { get; set; }
+        public string SignaturePhoto { get; set; }
+        public string MandateType { get; set; }
+        public int RelationShip { get; set; }
+        public string GovReg { get; set; }
+        public string CoOwner { get; set; }
+        public int ContactOnly { get; set; }
+
+        public int DualCit { get; set; }
+        //public int MandateType { get; set; }
+
+        public string EmailAddress2 { get; set; }
+        public string EmailAddress3 { get; set; }
+        public string EmailAddress4 { get; set; }
+
+        /// <summary>
+        /// //////////////////////////////////////////////////
+        /// </summary>
+        /// 
+
+
         public string PhysicalAddress { get; set; }
         public string PhysicalAddress2 { get; set; }
         public int? PhysicalCity { get; set; }
@@ -305,14 +363,19 @@ namespace LastTrialGene.ContactsContext
 
                 var client = new HttpClient();
                 {
-                    var endpoint = new Uri("http://localhost:93/gsam/api/client/contact_view1");
+                    var endpoint = new Uri("http://localhost:93/gsam/api/client/contact_list");
                     //var result = client.GetAsync(endpoint).Result;
                     //var json = result.Content.ReadAsStringAsync().Result;
 
 
                     var CustomObject = new CustomObject()
                     {
-                        ID = HttpContext.Current.Session["SelectedClientID"].ToString()//"43600"//(string)comboBox.Value
+                    ClientID = HttpContext.Current.Session["SelectedClientID"].ToString(),
+                    CounterpartyID = 0,
+                    StockBrokerID = 0,
+                    CustodianID = 0,
+                    TransferSecretaryID = 0,
+                    //ID = HttpContext.Current.Session["SelectedClientID"].ToString()//"43600"//(string)comboBox.Value
 
                     };
 
@@ -497,10 +560,21 @@ namespace LastTrialGene.ContactsContext
             return c;
         }*/
 
-        public static IdentificationType[] GetIdentification()
+        public static Identificationtype[] GetIdentification()
         {
+            int v = 0;
+            Identificationtype[] c = new Identificationtype[] { };
+            if (HttpContext.Current.Session["SelectedCounterType"] != null)
+            {
+                v = int.Parse(HttpContext.Current.Session["SelectedCounterType"].ToString());
+             c = Array.FindAll(getParams().data.IdentificationType, ct => ct.Corporate == v).ToArray();
+            }
+            else {
+                c = new Identificationtype[] { };
 
-            IdentificationType[] c = Array.FindAll(getParams().data.IdentificationType, ct => ct.Corporate == 0).ToArray();
+
+            }
+
             return c;
         }
 
@@ -589,8 +663,10 @@ namespace LastTrialGene.ContactsContext
                 contactsMDL.CountryOfResidence = 0;//int.Parse(emp.CountryOfResidence.ToString());
                 contactsMDL.IsUSResident = emp.IsUSResident == 1 ? true : false;
                 contactsMDL.HasUSGreenCard = emp.HasUSGreenCard == 1 ? true : false;
+                contactsMDL.CoOwner = int.Parse(emp.CoOwner);
                 contactsMDL.OwnershipPercent = emp.OwnershipPercent;
-                contactsMDL.Citizenship = int.Parse(emp.Citizenship.ToString());
+                contactsMDL.MandateType = int.Parse(emp.MandateType);
+                //  contactsMDL.Citizenship = int.Parse(emp.Citizenship2.ToString());
                 contactsMDL.Citizenship2 = emp.Citizenship2;
             }
            
@@ -677,7 +753,7 @@ namespace LastTrialGene.ContactsContext
                 contactsMDL.IsUSResident = emp.IsUSResident == 1 ? true : false;
                 contactsMDL.HasUSGreenCard =  emp.HasUSGreenCard==1?true:false;
                 contactsMDL.OwnershipPercent = emp.OwnershipPercent;
-                contactsMDL.Citizenship = int.Parse(emp.Citizenship.ToString());
+                //contactsMDL.Citizenship = int.Parse(emp.Citizenship.ToString());
                 contactsMDL.Citizenship2 = int.Parse(emp.Citizenship2.ToString());
             }
             emp.ClientID = int.Parse(HttpContext.Current.Session["SelectedClientID"].ToString());

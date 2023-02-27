@@ -22,7 +22,10 @@ namespace LastTrialGene
 
             if (e.Column.FieldName == "AccountName")
             {
-                 e.Editor.Value = Session["SelectedClientName"].ToString();
+                if (Session["SelectedClientName"]!=null) {
+                    e.Editor.Value = Session["SelectedClientName"].ToString();
+                }
+              
             }
 
         }

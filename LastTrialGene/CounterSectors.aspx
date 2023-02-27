@@ -89,7 +89,15 @@
             <dx:GridViewDataColumn Visible="false" FieldName="ClientID"/>
           
             <dx:GridViewDataColumn FieldName="CounterIndustryTypeName"  Width="25%"/>
-            <dx:GridViewDataColumn FieldName="Percentage" Width="25%"/>
+            <dx:GridViewDataTextColumn FieldName="Percentage" Width="25%">
+                <PropertiesTextEdit>
+                               <ValidationSettings>
+                 <RequiredField ErrorText="Enter phonenumber" IsRequired="True" />
+                                   <RegularExpression ValidationExpression="^\d+(\.\d{1,5})?$" />
+                 </ValidationSettings>
+                </PropertiesTextEdit>
+                
+            </dx:GridViewDataTextColumn>
             <dx:GridViewDataCheckColumn FieldName="Global" Width="20%"/>
            <%-- <dx:GridViewDataCheckColumn FieldName="GlobalClientID" Width="25%" />--%>
           

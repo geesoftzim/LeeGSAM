@@ -363,7 +363,7 @@ namespace LastTrialGene
                 //newClient.ClientNo = txtclientno.Text;//HttpContext.Current.Session["SelectedClientID"].ToString();
                 newClient.Corporate = false;
                 newClient.SalutationType = int.Parse(salutationtype.Value.ToString());
-                newClient.DateOfBirth = DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.DateOfBirth = DateTime.Now;//DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.IndustryType = 0;
                 newClient.RegistrationOffice = "";
                 newClient.VATRegistrationNo = "";
@@ -377,7 +377,7 @@ namespace LastTrialGene
                 newClient.CustodialID = 0;
                 newClient.CounterpartyType = 0;///(@cboCounterpartyType.Value == null ? 0 : (int)cboCounterpartyType.Value);
                 newClient.CustodialGroup = int.Parse(cust.Value.ToString());// (cboCustodialGroup.Value == null ? 0 : (int)cboCustodialGroup.Value);
-                newClient.InceptionDate = DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.InceptionDate = DateTime.Now;// DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.SpecialInstructions = physicalAddress.Text;
                 newClient.BranchID = cboBranch.Value.ToString(); //(@cboBranch.Value == null ? 0 : (int)cboBranch.Value);
                 newClient.PhysicalAddress = physicalAddress.Text;

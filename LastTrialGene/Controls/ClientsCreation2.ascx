@@ -187,11 +187,12 @@
 
 
         <dx:GridViewDataComboBoxColumn VisibleIndex="4" FieldName="PhysicalCountry" Visible="false">
-            <PropertiesComboBox ValueField="PhysicalCountry" TextField="country" DataSourceID="CountrySource" EnableSynchronization="False" IncrementalFilteringMode="StartsWith">
+            <PropertiesComboBox ShowImageInEditBox="true" ImageUrlField="imgUrl" ValueField="PhysicalCountry" TextField="country" DataSourceID="CountrySource" EnableSynchronization="False" IncrementalFilteringMode="StartsWith">
                 <ValidationSettings>
                     <RequiredField IsRequired="true" ErrorText="Select Country" />
                 </ValidationSettings>
                 <ClientSideEvents SelectedIndexChanged="CountriesCombo_SelectedIndexChanged" />
+                  <ItemImage Height="20px" Width="28px" />
             </PropertiesComboBox>
             <EditFormSettings ColumnSpan="2" Visible="True" />
 
@@ -219,11 +220,12 @@
         </dx:GridViewDataComboBoxColumn>
 
         <dx:GridViewDataComboBoxColumn VisibleIndex="4" FieldName="PostalCountry" Visible="false">
-            <PropertiesComboBox ValueField="PostalCountry" TextField="country" DataSourceID="CountrySource">
+            <PropertiesComboBox ShowImageInEditBox="true" ImageUrlField="imgUrl" ValueField="PostalCountry" TextField="country" DataSourceID="CountrySource">
                 <ValidationSettings>
                     <RequiredField IsRequired="true" ErrorText="Select Country" />
                 </ValidationSettings>
                 <ClientSideEvents SelectedIndexChanged="PostCountriesCombo_SelectedIndexChanged" />
+                  <ItemImage Height="20px" Width="28px" />
             </PropertiesComboBox>
             <EditFormSettings ColumnSpan="2" Visible="True" />
         </dx:GridViewDataComboBoxColumn>

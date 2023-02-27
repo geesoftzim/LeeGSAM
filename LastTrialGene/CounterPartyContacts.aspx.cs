@@ -19,6 +19,8 @@ using System.Web.UI.WebControls;
 using static LastTrialGene.Models.ParamsClientForm;
 using static LastTrialGene.Models.Sample;
 using System.Net.NetworkInformation;
+using System.IdentityModel.Metadata;
+using System.Net.Mail;
 
 namespace LastTrialGene
 {
@@ -46,6 +48,114 @@ namespace LastTrialGene
             }*/
 
         }
+
+        protected void Grid_Init(object sender, EventArgs e)
+        {
+            
+    
+            GridViewDataTextColumn EmailAddress2 = new GridViewDataTextColumn();
+            EmailAddress2.FieldName = "EmailAddress2";
+            EmailAddress2.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            EmailAddress2.VisibleIndex = GridView.VisibleColumns.Count;
+            EmailAddress2.Visible = false;
+            GridView.Columns.Add(EmailAddress2);
+
+            GridViewDataTextColumn EmailAddress3 = new GridViewDataTextColumn();
+            EmailAddress3.FieldName = "EmailAddress3";
+            EmailAddress3.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            EmailAddress3.VisibleIndex = GridView.VisibleColumns.Count;
+            EmailAddress3.Visible = false;
+            GridView.Columns.Add(EmailAddress3);
+
+            GridViewDataTextColumn EmailAddress4 = new GridViewDataTextColumn();
+            EmailAddress4.FieldName = "EmailAddress4";
+            EmailAddress4.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            EmailAddress4.VisibleIndex = GridView.VisibleColumns.Count;
+            EmailAddress4.Visible = false;
+            GridView.Columns.Add(EmailAddress4);
+
+            GridViewDataComboBoxColumn RelationShip = new GridViewDataComboBoxColumn();
+            RelationShip.FieldName = "RelationShip";
+            RelationShip.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            RelationShip.VisibleIndex = GridView.VisibleColumns.Count;
+            RelationShip.Visible = false;
+            RelationShip.PropertiesComboBox.Items.Add("Patenal");
+            RelationShip.PropertiesComboBox.Items.Add("Friend");
+            GridView.Columns.Add(RelationShip);
+
+            GridViewDataComboBoxColumn MandateType = new GridViewDataComboBoxColumn();
+            MandateType.FieldName = "MandateType";
+            MandateType.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            MandateType.VisibleIndex = GridView.VisibleColumns.Count;
+            MandateType.Visible = false;
+            MandateType.PropertiesComboBox.Items.Add("partial");
+            MandateType.PropertiesComboBox.Items.Add("Full");
+            GridView.Columns.Add(MandateType);
+
+            GridViewDataComboBoxColumn ContactType = new GridViewDataComboBoxColumn(); 
+            ContactType.FieldName = "ContactType";
+            ContactType.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            ContactType.VisibleIndex = GridView.VisibleColumns.Count;
+            ContactType.Visible = false;
+            ContactType.PropertiesComboBox.Items.Add("high");
+            ContactType.PropertiesComboBox.Items.Add("low");
+            ContactType.PropertiesComboBox.Items.Add("medium");
+            GridView.Columns.Add(ContactType);
+
+
+            GridViewDataTextColumn GovReg = new GridViewDataTextColumn();
+            GovReg.FieldName = "GovReg";
+            GovReg.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            GovReg.VisibleIndex = GridView.VisibleColumns.Count;
+            GovReg.Visible = false;
+        //    GovReg.PropertiesTextEdit.ClientSideEvents.GotFocus
+            GridView.Columns.Add(GovReg);
+
+
+            GridViewDataCheckColumn ContactOnly = new GridViewDataCheckColumn();
+            ContactOnly.FieldName = "ContactOnly";
+            ContactOnly.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+            ContactOnly.VisibleIndex = GridView.VisibleColumns.Count;
+            ContactOnly.PropertiesCheckEdit.EnableClientSideAPI = true;
+            ContactOnly.PropertiesCheckEdit.ValueChecked = true;
+            ContactOnly.PropertiesCheckEdit.ValueUnchecked = false; 
+            ContactOnly.Visible = false;
+            // DualCit.PropertiesCheckEdit.ClientSideEvents.CheckedChanged = "function (s,e) { alert('Checkbox is now ' + s.GetCheckState()); }";
+           // ContactOnly.PropertiesCheckEdit.ClientSideEvents.CheckedChanged = "function (s,e) {if( s.GetCheckState()=='Checked'){gridView.GetMainElement().getElementsByClassName('OwnershipPercent')[0].style.visibility ='visible';}if( s.GetCheckState()=='Unchecked'){gridView.GetMainElement().getElementsByClassName('OwnershipPercent')[0].style.visibility ='hidden';} }";
+            GridView.Columns.Add(ContactOnly);
+
+
+            GridViewDataCheckColumn DualCit = new GridViewDataCheckColumn();
+            DualCit.FieldName = "DualCit";
+            DualCit.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+            DualCit.VisibleIndex = GridView.VisibleColumns.Count;
+            DualCit.PropertiesCheckEdit.EnableClientSideAPI = true;
+            DualCit.PropertiesCheckEdit.ValueChecked = 1;
+            DualCit.PropertiesCheckEdit.ValueUnchecked = 0;
+            DualCit.Visible = false;
+            // DualCit.PropertiesCheckEdit.ClientSideEvents.CheckedChanged = "function (s,e) { alert('Checkbox is now ' + s.GetCheckState()); }";
+            DualCit.PropertiesCheckEdit.ClientSideEvents.CheckedChanged = "function (s,e) {if( s.GetCheckState()=='Checked'){gridView.GetMainElement().getElementsByClassName('citizen2')[0].style.visibility ='visible';}if( s.GetCheckState()=='Unchecked'){gridView.GetMainElement().getElementsByClassName('citizen2')[0].style.visibility ='hidden';} }";
+            GridView.Columns.Add(DualCit);
+
+        }
+
+        public bool GetChecked(string CoOwner)
+        {
+            switch (CoOwner)
+            {
+                case "Write":
+                    return true;
+                case "Read":
+                    return false;
+                case "None":
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
+
+
 
         public  void ShowData()
         {
@@ -81,12 +191,14 @@ namespace LastTrialGene
 
         protected void GridView_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
-         //   e.NewValues["Kind"] = 1;
+            //   e.NewValues["Kind"] = 1;
             /** e.NewValues["Priority"] = 2;
              e.NewValues["Status"] = 1;
              e.NewValues["IsDraft"] = true;
              e.NewValues["IsArchived"] = false;*/
             //WriteLogFile(e.NewValues["AccountName"].ToString());
+            e.NewValues["CoOwner"] = true; 
+                e.NewValues["GovReg"] = "GovReg";
         }
 
         protected void GridView_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)

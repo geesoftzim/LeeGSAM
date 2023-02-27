@@ -434,7 +434,7 @@ namespace LastTrialGene.Code
         {
             RiskRating[] c = getParams().data.RiskRating;
           
-                 if (HttpContext.Current.Session["ClientRisk"] != null)
+              /**   if (HttpContext.Current.Session["ClientRisk"] != null)
             {
                 int v = int.Parse(HttpContext.Current.Session["ClientRisk"].ToString());
 
@@ -448,7 +448,7 @@ namespace LastTrialGene.Code
                         c[0] = new RiskRating(id, name);
                     }
                 }
-            }
+            }*/
             return c;
         }
 
@@ -497,7 +497,7 @@ namespace LastTrialGene.Code
             return c;
         }
 
-        public static Identificationtype[] GetIdentification()
+        public static ParamsClientForm.Identificationtype[] GetIdentification()
         {
 
             ParamsClientForm.Identificationtype[] c = Array.FindAll(getParams().data.IdentificationType, ct => ct.Corporate == 0).ToArray();
@@ -744,6 +744,7 @@ namespace LastTrialGene.Code
         }
         public static void NewClients(ClientDetailsDataUpdate1 emp)
         {
+
             ClientMDL newClient = new ClientMDL();
             {
                 // newClient.CounterpartyType = int.Parse(HttpContext.Current.Session["ClientTypeSec"].ToString());
@@ -753,7 +754,7 @@ namespace LastTrialGene.Code
                 newClient.Name3 = emp.Name3;      
                 newClient.Corporate = false;
                 newClient.SalutationType = emp.SalutationType;//;int.Parse(salutationtype.Value.ToString());
-                newClient.DateOfBirth = DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.DateOfBirth = emp.DateOfBirth;//DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.SexType = emp.SexType;
                 newClient.IndustryType = 0;
                 newClient.RegistrationOffice = "";
@@ -767,7 +768,7 @@ namespace LastTrialGene.Code
                 newClient.CustodialID = 0;
                 newClient.CounterpartyType = int.Parse(HttpContext.Current.Session["ClientTypeSec"].ToString());///(@cboCounterpartyType.Value == null ? 0 : (int)cboCounterpartyType.Value);
                 newClient.CustodialGroup = emp.CustodialGroup;//int.Parse(cust.Value.ToString());// (cboCustodialGroup.Value == null ? 0 : (int)cboCustodialGroup.Value);
-                newClient.InceptionDate = emp.InceptionDate.ToString();//DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.InceptionDate = emp.InceptionDate;//DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.SpecialInstructions = //physicalAddress.Text;
                 newClient.BranchID = emp.BranchID.ToString();//int.Parse(branch.ToString());//int.Parse(cboBranch.Value.ToString()); //(@cboBranch.Value == null ? 0 : (int)cboBranch.Value);
                 newClient.PhysicalAddress = emp.PhysicalAddress;//physicalAddress.Text;
@@ -908,7 +909,7 @@ namespace LastTrialGene.Code
                 newClient.ClientNo = emp.ClientNo;//txtclientno.Text;//HttpContext.Current.Session["SelectedClientID"].ToString();
                 newClient.Corporate = false;
                 newClient.SalutationType = emp.SalutationType;//;int.Parse(salutationtype.Value.ToString());
-                newClient.DateOfBirth = emp.DateOfBirth.ToString();//DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.DateOfBirth = emp.DateOfBirth;//DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.IndustryType = 0;
                 newClient.RegistrationOffice = "";
                 newClient.VATRegistrationNo = "";
@@ -922,7 +923,7 @@ namespace LastTrialGene.Code
                 newClient.CustodialID = 0;
                 newClient.CounterpartyType = 0;///(@cboCounterpartyType.Value == null ? 0 : (int)cboCounterpartyType.Value);
                 newClient.CustodialGroup = emp.CustodialGroup;//int.Parse(cust.Value.ToString());// (cboCustodialGroup.Value == null ? 0 : (int)cboCustodialGroup.Value);
-                newClient.InceptionDate = emp.InceptionDate.ToString();//DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.InceptionDate = emp.InceptionDate;//DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.SpecialInstructions = //physicalAddress.Text;
                 newClient.BranchID = emp.BranchID.ToString();//int.Parse(branch.ToString());//int.Parse(cboBranch.Value.ToString()); //(@cboBranch.Value == null ? 0 : (int)cboBranch.Value);
                 newClient.PhysicalAddress = emp.PhysicalAddress;//physicalAddress.Text;

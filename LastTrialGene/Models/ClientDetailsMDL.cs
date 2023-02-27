@@ -22,7 +22,7 @@ namespace LastTrialGene.Models
         public string VATRegistrationNo { get; set; }
         public int? CustodialGroup { get; set; }
         //  public Dateofbirth DateOfBirth { get; set; }
-        public string DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public int? TaxStatus { get; set; }
         public int? WithholdingTaxStatus { get; set; }
         public int? ResidentShareholdersTaxStatus { get; set; }
@@ -56,7 +56,7 @@ namespace LastTrialGene.Models
         public string InitialedName { get; set; }
         public object FileName { get; set; }
         //public Inceptiondate InceptionDate { get; set; }
-        public string InceptionDate { get; set; }
+        public DateTime InceptionDate { get; set; }
         public string SpecialInstructions { get; set; }
         public int? CustodialID { get; set; }
         public string EmailAddress2 { get; set; }
@@ -617,7 +617,7 @@ namespace LastTrialGene.Models
         public string Name3 { get; set; }
         public bool Corporate { get; set; }
         public int SalutationType { get; set; }
-        public string DateOfBirth { get; set; } = new DateofBirth().date != null ? new DateofBirth().date.ToString() : DateTime.Now.ToString();
+        public DateTime DateOfBirth { get; set; }// = new DateofBirth().date != null ? new DateofBirth().date.ToString() : DateTime.Now.ToString();
         public int SexType { get; set; }
         public int IndustryType { get; set; }
         public string RegistrationOffice { get; set; }
@@ -645,7 +645,7 @@ namespace LastTrialGene.Models
         public int CustodialID { get; set; }
         public int CounterpartyType { get; set; }
         public int CustodialGroup { get; set; }
-        public string InceptionDate { get; set; }// = DateTime.Now.ToString();//new Inceptiondate().date!=null ? new Inceptiondate().date:DateTime.Now;//
+        public DateTime InceptionDate { get; set; }// = DateTime.Now.ToString();//new Inceptiondate().date!=null ? new Inceptiondate().date:DateTime.Now;//
 
 
         public string SpecialInstructions { get; set; }
@@ -724,13 +724,15 @@ namespace LastTrialGene.Models
         /// <summary>
         /// /////////////////Bools Ends here//////////////
         /// </summary>
-
+        /// 
+        
+        public int USResident { get; set; }
 
         public string IncomeTaxNo { get; set; }
-  
+         
         public int FundAdmin { get; set; }
         public int ClientGroup { get; set; }
-   
+        
         public int IncomeType { get; set; }
         public int Nationality { get; set; }
         

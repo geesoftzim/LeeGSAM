@@ -11,7 +11,7 @@ namespace LastTrialGene
 {
 
 
-    public partial class Clients
+    public partial class CounterEmploymentdetails
     {
 
         /// <summary>

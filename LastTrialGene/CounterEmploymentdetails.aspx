@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Root.master" AutoEventWireup="true" CodeBehind="CounterEmploymentdetails.aspx.cs" Inherits="LastTrialGene.Clients" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Root.master" AutoEventWireup="true" CodeBehind="CounterEmploymentdetails.aspx.cs" Inherits="LastTrialGene.CounterEmploymentdetails" %>
 <%@ Register Src="~/Controls/SideBar.ascx" TagPrefix="uc1" TagName="SideBar" %>
 
 <asp:Content runat="server" ContentPlaceHolderID="Head">

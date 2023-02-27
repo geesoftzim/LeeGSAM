@@ -21,9 +21,10 @@ namespace LastTrialGene
 
         protected void grid_RowValidating(object sender, DevExpress.Web.Data.ASPxDataValidationEventArgs e)
         {
-
-            if (e.NewValues["Percentage"] == null)
-                AddError(e.Errors, GridView.Columns["Percentage"], "Name Can Not be Null");
+           // if (e.Errors.Count > 0) e.RowError = "Please, fill all fields.";
+             /*  if (e.NewValues["Percentage"] == null)
+                e.RowError = "Please, fill all fields.";
+               AddError(e.Errors, GridView.Columns["Percentage"], "Name Can Not be Null");*/
         }
 
         void AddError(Dictionary<GridViewColumn, string> errors, GridViewColumn column, string errorText)

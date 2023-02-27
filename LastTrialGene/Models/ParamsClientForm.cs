@@ -134,12 +134,15 @@ namespace LastTrialGene.Models
             public int Citizenship { get; set; }
             public int Citizenship2 { get; set; }
             public string Name { get; set; }
+            public string imgUrl { get; set; }
+            
             public nationality(int ID, string Name) { 
                 this.ID= ID;
                 this.Nationality = ID;
                 this.Citizenship = ID;
                 this.Citizenship2 = ID;
                 this.Name= Name;
+                this.imgUrl = imgUrl;// "~/Content/Images/flags/zimbabwe.png";
             }
 
         }
@@ -163,11 +166,17 @@ namespace LastTrialGene.Models
                 this.Physicalcountry = ID;
                 this.PostalCountry = ID;
                 this.EmployerPhysicalCountry = ID;
-
+                this.USResident = ID;
+                this.IsUSResident =ID ; 
+                this.imgUrl = imgUrl;
+                
                 this.country = Name;
             
 
             }
+            public string imgUrl { get; set; }
+            public int IsUSResident { get; set; }
+            public int USResident { get; set; }
             public string country { get; set; }
             public int Physicalcountry { get; set; }
             public int EmployerPhysicalCountry { get; set; }
@@ -231,10 +240,14 @@ namespace LastTrialGene.Models
             public int ClientRisk { get; set; }
             public string Name { get; set; }
             public string RiskName { get; set; }
+            public string imgUrl { get; set; }
+            
 
             public RiskRating(int ID, string Name) { 
                 this.ClientRisk = ID;
                 this.RiskName = Name;
+                this.imgUrl = imgUrl;
+                
             }
         }
 

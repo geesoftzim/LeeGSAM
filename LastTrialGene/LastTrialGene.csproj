@@ -55,6 +55,7 @@
     <Reference Include="Azure.Security.KeyVault.Secrets, Version=4.1.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
       <HintPath>..\packages\Azure.Security.KeyVault.Secrets.4.1.0\lib\netstandard2.0\Azure.Security.KeyVault.Secrets.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Web.ASPxSpellChecker.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Web.Resources.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpo.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraCharts.v22.1.Web, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -351,10 +352,22 @@
     <Content Include="App_Data\Overview.html" />
     <Content Include="App_Data\OverviewContents.xml" />
     <Content Include="Article.aspx" />
+    <Content Include="Content\Images\Active.svg" />
     <Content Include="Content\Images\ava3.jpg" />
+    <Content Include="Content\Images\flags\Australia.png" />
+    <Content Include="Content\Images\flags\Botswana.png" />
+    <Content Include="Content\Images\flags\GreatBritain.svg" />
+    <Content Include="Content\Images\flags\SouthAfrica.svg" />
+    <Content Include="Content\Images\flags\united.png" />
+    <Content Include="Content\Images\flags\Zambia.png" />
+    <Content Include="Content\Images\flags\zimbabwe.png" />
+    <Content Include="Content\Images\risk\priority1.svg" />
+    <Content Include="Content\Images\risk\priority2.svg" />
+    <Content Include="Content\Images\risk\priority3.svg" />
     <Content Include="Controls\ClientsCreation2.ascx" />
     <Content Include="Controls\ClientsCreation.ascx" />
     <Content Include="CounterClients.aspx" />
+    <Content Include="CounterTradingAcc.aspx" />
     <Content Include="CounterSectors.aspx" />
     <Content Include="CounterPortfolio.aspx" />
     <Content Include="CounterPartyContacts.aspx" />
@@ -1038,6 +1051,7 @@
     <Content Include="Index.aspx" />
     <Content Include="Scheduler.aspx" />
     <Content Include="WebForm2.aspx" />
+    <Content Include="widgets\DockPanel.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Root.master" />
@@ -1177,6 +1191,7 @@
     <Compile Include="Code\Clients2Context.cs" />
     <Compile Include="Code\CounterSectorsContext.cs" />
     <Compile Include="Code\AssetPortfolioContext.cs" />
+    <Compile Include="Code\TradeAccountsContext.cs" />
     <Compile Include="Controls\ClientsCreation2.ascx.cs">
       <DependentUpon>ClientsCreation2.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1197,6 +1212,13 @@
     </Compile>
     <Compile Include="CounterClients.aspx.designer.cs">
       <DependentUpon>CounterClients.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CounterTradingAcc.aspx.cs">
+      <DependentUpon>CounterTradingAcc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CounterTradingAcc.aspx.designer.cs">
+      <DependentUpon>CounterTradingAcc.aspx</DependentUpon>
     </Compile>
     <Compile Include="CounterSectors.aspx.cs">
       <DependentUpon>CounterSectors.aspx</DependentUpon>
@@ -1338,6 +1360,13 @@
     </Compile>
     <Compile Include="WebForm2.aspx.designer.cs">
       <DependentUpon>WebForm2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\DockPanel.ascx.cs">
+      <DependentUpon>DockPanel.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="widgets\DockPanel.ascx.designer.cs">
+      <DependentUpon>DockPanel.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

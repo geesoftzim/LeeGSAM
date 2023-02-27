@@ -148,11 +148,18 @@
                   <p> Portfolio Modelling</p>
                 </a>
               </li>
-
+                
                 <li class="nav-item">
                 <a href="../CounterSectors.aspx" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Counter Sectors</p>
+                </a>
+              </li>
+
+                  <li class="nav-item">
+                <a href="../CounterTradingAcc.aspx" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Trading Accounts</p>
                 </a>
               </li>
 

@@ -688,7 +688,7 @@ namespace LastTrialGene.ClientsContext2
                 newClient.ClientNo = ver();//"22125327d";//emp.ClientNo;//txtclientno.Text;//HttpContext.Current.Session["SelectedClientID"].ToString();
                 newClient.Corporate = false;
                 newClient.SalutationType = emp.SalutationType;//;int.Parse(salutationtype.Value.ToString());
-                newClient.DateOfBirth = DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.DateOfBirth = emp.DateOfBirth;//DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.IndustryType = 0;
                 newClient.RegistrationOffice = "";
                 newClient.VATRegistrationNo = "";
@@ -839,7 +839,7 @@ namespace LastTrialGene.ClientsContext2
                 newClient.ClientNo = emp.ClientNo;//txtclientno.Text;//HttpContext.Current.Session["SelectedClientID"].ToString();
                 newClient.Corporate = false;
                 newClient.SalutationType = emp.SalutationType;//;int.Parse(salutationtype.Value.ToString());
-                newClient.DateOfBirth = DateTime.Now.ToString("yyyy-MM-dd");
+                newClient.DateOfBirth = emp.DateOfBirth;// DateTime.Now.ToString("yyyy-MM-dd");
                 newClient.IndustryType = 0;
                 newClient.RegistrationOffice = emp.RegistrationOffice;
                 newClient.VATRegistrationNo = emp.VATRegistrationNo;

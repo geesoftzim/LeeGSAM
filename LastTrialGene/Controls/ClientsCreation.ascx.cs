@@ -16,6 +16,7 @@ using LastTrialGene.Code;
 using System.Configuration;
 using DevExpress.Utils;
 using Newtonsoft.Json.Linq;
+using System.IdentityModel.Metadata;
 
 namespace LastTrialGene.Controls
 {
@@ -168,12 +169,37 @@ namespace LastTrialGene.Controls
         bool hasValidationErrors = false;
 
 
+        protected void edit_CalendarCustomDisabledDate(object sender, CalendarCustomDisabledDateEventArgs e)
+        {
+            string curDate = e.Date.ToShortDateString();
+            string today = DateTime.Now.ToShortDateString();
+            string yesterday = DateTime.Now.AddDays(-1).ToShortDateString();
 
+            string future = "";//DateTime.Now.AddDays(-1).ToShortDateString();
+                               // if (curDate != today && curDate != yesterday)
+                               //     e.IsDisabled = true;
+            if (DateTime.Now<= e.Date)
+                e.IsDisabled = true;
+
+
+
+            
+        }
 
         //////////////Selected index change trials begin here///////////////////////////////////
         protected void grid_CellEditorInitialize(object sender, ASPxGridViewEditorEventArgs e)
         {
+            if (e.Column.FieldName == "InceptionDate")
+            {
+                ASPxDateEdit edit = e.Editor as ASPxDateEdit;
+                edit.CalendarCustomDisabledDate += edit_CalendarCustomDisabledDate;
+            }
 
+            if (e.Column.FieldName == "DateOfBirth")
+            {
+                ASPxDateEdit edit = e.Editor as ASPxDateEdit;
+                edit.CalendarCustomDisabledDate += edit_CalendarCustomDisabledDate;
+            }
 
             if (e.Column.FieldName == "HasUSGreenCard")
             {
@@ -309,7 +335,9 @@ namespace LastTrialGene.Controls
             RelationShipManager.PropertiesComboBox.Items.Add("Tatenda");
             GridView.Columns.Add(RelationShipManager);
 
-            GridViewDataComboBoxColumn WithdrawFrequency = new GridViewDataComboBoxColumn();
+
+
+            GridViewDataComboBoxColumn WithdrawFrequency = new GridViewDataComboBoxColumn(); 
             WithdrawFrequency.FieldName = "WithdrawFrequency";
             WithdrawFrequency.UnboundType = DevExpress.Data.UnboundColumnType.String;
             WithdrawFrequency.VisibleIndex = GridView.VisibleColumns.Count;
@@ -394,7 +422,7 @@ namespace LastTrialGene.Controls
             //////////////////////////////////////////////////////////////////////////
             ///
 
-            GridViewDataCheckColumn IsUSResident = new GridViewDataCheckColumn();
+            /**GridViewDataCheckColumn IsUSResident = new GridViewDataCheckColumn();
             IsUSResident.FieldName = "IsUSResident";
             IsUSResident.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
             IsUSResident.VisibleIndex = GridView.VisibleColumns.Count;
@@ -404,7 +432,7 @@ namespace LastTrialGene.Controls
             IsUSResident.Visible = false;
             // DualCit.PropertiesCheckEdit.ClientSideEvents.CheckedChanged = "function (s,e) { alert('Checkbox is now ' + s.GetCheckState()); }";
             IsUSResident.PropertiesCheckEdit.ClientSideEvents.CheckedChanged = "function (s,e) {if( s.GetCheckState()=='Checked'){console.log('unhide it fired');gridView.GetMainElement().getElementsByClassName('HasUSGreenCard')[0].style.visibility ='visible';}if( s.GetCheckState()=='Unchecked'){console.log('hide it fired');gridView.GetMainElement().getElementsByClassName('HasUSGreenCard')[0].style.visibility ='hidden';} }";
-            GridView.Columns.Add(IsUSResident);
+            GridView.Columns.Add(IsUSResident);*/
 
 
 

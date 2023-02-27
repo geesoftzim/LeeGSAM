@@ -22,7 +22,7 @@ namespace LastTrialGene.Models
         public string Name3 { get; set; }
         public bool Corporate { get; set; }
         public int SalutationType { get; set; }
-        public string DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public int SexType { get; set; }
         public int IndustryType { get; set; }
         public string RegistrationOffice { get; set; }
@@ -37,7 +37,7 @@ namespace LastTrialGene.Models
         public int CustodialID { get; set; }
         public int CounterpartyType { get; set; }
         public int CustodialGroup { get; set; }
-        public string InceptionDate { get; set; }
+        public DateTime InceptionDate { get; set; }
         public string SpecialInstructions { get; set; }
         public string BranchID { get; set; }
         public string PhysicalAddress { get; set; }

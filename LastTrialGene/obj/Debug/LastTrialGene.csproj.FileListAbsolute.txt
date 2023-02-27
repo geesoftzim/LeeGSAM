@@ -260,3 +260,10 @@ C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\obj\Debug\LastTrialGen
 C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\obj\Debug\LastTrialGene.csproj.CopyComplete
 C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\obj\Debug\LastTrialGene.dll
 C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\obj\Debug\LastTrialGene.pdb
+C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\bin\DevExpress.Web.ASPxSpellChecker.v22.1.dll
+C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\bin\DevExpress.SpellChecker.v22.1.Core.dll
+C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\bin\DevExpress.Web.ASPxSpellChecker.v22.1.xml
+C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\bin\DevExpress.SpellChecker.v22.1.Core.xml
+C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\bin\de\DevExpress.Web.ASPxSpellChecker.v22.1.resources.dll
+C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\bin\es\DevExpress.Web.ASPxSpellChecker.v22.1.resources.dll
+C:\Users\Geesoft\source\repos\LastTrialGene\LastTrialGene\bin\ja\DevExpress.Web.ASPxSpellChecker.v22.1.resources.dll

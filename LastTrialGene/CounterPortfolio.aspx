@@ -76,11 +76,47 @@
          
             <dx:GridViewDataColumn Visible="false" FieldName="ID" />
             <dx:GridViewDataColumn Visible="false" FieldName="ClientID"/>
-            <dx:GridViewDataColumn FieldName="MoneyMarket" Width="25%"/>
-            <dx:GridViewDataColumn FieldName="Bonds" Width="25%"/>
-            <dx:GridViewDataColumn FieldName="Equities" Width="20%"/>
-            <dx:GridViewDataColumn FieldName="Property" Width="20%"/>
-            <dx:GridViewDataColumn FieldName="Cash" Width="20%"/>
+
+            <dx:GridViewDataTextColumn FieldName="MoneyMarket" Width="25%">
+                                 <PropertiesTextEdit>
+                         <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a number" ValidationExpression="^\d+(\.\d{1,5})?$" />
+                 </ValidationSettings>
+                 </PropertiesTextEdit>
+            </dx:GridViewDataTextColumn>
+
+            <dx:GridViewDataTextColumn FieldName="Bonds" Width="25%">
+                                       <PropertiesTextEdit>
+                         <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a number" ValidationExpression="^\d+(\.\d{1,5})?$" />
+                 </ValidationSettings>
+                 </PropertiesTextEdit>
+            </dx:GridViewDataTextColumn>
+
+            <dx:GridViewDataTextColumn FieldName="Equities" Width="20%">
+                       <PropertiesTextEdit>
+                         <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a number" ValidationExpression="^\d+(\.\d{1,5})?$" />
+                 </ValidationSettings>
+                 </PropertiesTextEdit>
+            </dx:GridViewDataTextColumn>
+
+            <dx:GridViewDataTextColumn FieldName="Property" Width="20%">
+                   <PropertiesTextEdit>
+                         <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a number" ValidationExpression="^\d+(\.\d{1,5})?$" />
+                 </ValidationSettings>
+                 </PropertiesTextEdit>
+            </dx:GridViewDataTextColumn>
+
+            <dx:GridViewDataTextColumn FieldName="Cash" Width="20%">
+                                   <PropertiesTextEdit>
+                         <ValidationSettings>
+                    <RegularExpression ErrorText="This is not a number" ValidationExpression="^\d+(\.\d{1,5})?$" />
+                 </ValidationSettings>
+                 </PropertiesTextEdit>
+            </dx:GridViewDataTextColumn>
+
             <dx:GridViewDataCheckColumn FieldName="Global" Width="25%" />
           
 
